@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  index?: number;
+  variant?: 'grid' | 'featured';
+}
+
+const { project, index = 0, variant = 'grid' } = Astro.props;
+const eager = index < 2;
+---
+
+<article
+  class:list={[
+    'reveal',
+    `reveal-d${(index % 4) + 1}`,
+    'group',
+  ]}
+  data-sector={project.sector}
+  data-formats={project.formats.join(',')}
+  data-year={project.year}
+>
+  <a
+    href={`/work/${project.slug}`}
+    class="tile block focus-visible:outline-none"
+    aria-label={`Open case study: ${project.title}`}
+    data-event="project_open"
+    data-project={project.slug}
+  >
+    <div class="relative aspect-video overflow-hidden rounded-sm bg-paper/5">
+      <Image
+        src={project.poster}
+        alt={`${project.title} — ${project.client}`}
+        width={1600}
+        height={900}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        class="tile-img absolute inset-0 h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/0 to-ink/20 transition-opacity duration-500 group-hover:from-ink/40"></div>
+
+      <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-paper/85">
+        <span class="rounded-full border border-paper/30 bg-ink/40 px-2.5 py-1 backdrop-blur">{project.year}</span>
+        <span class="rounded-full border border-paper/30 bg-ink/40 px-2.5 py-1 backdrop-blur">{project.sector}</span>
+      </div>
+
+      <div class="absolute bottom-4 right-4 flex h-12 w-12 translate-y-2 items-center justify-center rounded-full border border-paper/40 bg-ink/50 opacity-0 backdrop-blur transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 sm:h-14 sm:w-14">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+          <path d="M2 1.5l10 5.5L2 12.5z" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-baseline justify-between gap-6">
+      <h3 class={variant === 'featured'
+        ? 'text-2xl font-medium tracking-tight sm:text-3xl'
+        : 'text-xl font-medium tracking-tight sm:text-2xl'}>
+        {project.title}
+      </h3>
+      <span class="shrink-0 text-xs text-paper/40 tabular-nums">{project.year}</span>
+    </div>
+
+    <p class="mt-1 text-sm text-paper/60">{project.client}</p>
+
+    <p class="mt-3 max-w-md text-sm leading-relaxed text-paper/70">{project.blurb}</p>
+
+    <ul class="mt-4 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.2em] text-paper/50">
+      {project.roles.map((r) => (
+        <li class="rounded-full border border-paper/15 px-2 py-1">{r}</li>
+      ))}
+    </ul>
+  </a>
+</article>

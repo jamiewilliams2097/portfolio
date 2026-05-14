@@ -1,0 +1,24 @@
+---
+interface Props {
+  words?: string[];
+  separator?: string;
+}
+
+const {
+  words = ['Brand', 'Social', 'Automotive', 'Commercial', 'Shoot', 'Edit', 'Deliver'],
+  separator = '·',
+} = Astro.props;
+---
+
+<div class="marquee border-y border-paper/10 py-6 sm:py-8" aria-hidden="true">
+  <div class="marquee-track">
+    {[0, 1].map((set) =>
+      words.map((word) => (
+        <span class="marquee-item" aria-hidden={set === 1 ? 'true' : undefined}>
+          {word}
+          <span aria-hidden="true">{separator}</span>
+        </span>
+      )),
+    )}
+  </div>
+</div>

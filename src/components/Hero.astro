@@ -1,0 +1,98 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="hero" class="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
+  <div class="absolute inset-0 hero-zoom">
+    <video
+      class="h-full w-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="/showreel-poster.svg"
+      aria-hidden="true"
+    >
+      <source src="/showreel.webm" type="video/webm" />
+      <source src="/showreel.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="absolute inset-0 bg-ink/55" aria-hidden="true"></div>
+  <div
+    class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink via-ink/70 to-transparent"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative z-10 mx-auto flex h-full w-full max-w-screen-2xl flex-col justify-end px-6 pb-16 sm:px-12 sm:pb-24">
+    <div class="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-paper/60 sm:text-xs">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inset-0 animate-ping rounded-full bg-accent/60"></span>
+        <span class="relative h-2 w-2 rounded-full bg-accent"></span>
+      </span>
+      <span>{site.location.split(',')[0]} · Available now</span>
+    </div>
+
+    <h1 class="mt-6 max-w-[20ch] text-5xl font-medium leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-8xl">
+      Cuts with pace, clarity<br class="hidden sm:block" />
+      and emotional timing<span class="text-accent">.</span>
+    </h1>
+
+    <p class="mt-6 max-w-2xl text-base font-light text-paper/75 sm:text-lg md:text-xl">
+      {site.name} — {site.subheading}
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      <a
+        href="/work"
+        class="group inline-flex items-center gap-3 rounded-full bg-paper px-6 py-3 text-sm font-medium text-ink transition hover:bg-paper/90"
+        data-event="cta_view_work"
+      >
+        View selected work
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+          class="transition-transform group-hover:translate-x-0.5"
+        >
+          <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
+        </svg>
+      </a>
+
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-3 rounded-full border border-paper/30 px-6 py-3 text-sm transition hover:bg-paper hover:text-ink"
+        data-event="cta_start_project"
+      >
+        Start a project
+      </a>
+
+      <button
+        type="button"
+        data-lightbox-open
+        data-vimeo-id={site.showreelVimeoId}
+        class="group inline-flex items-center gap-2 rounded-full px-3 py-3 text-sm text-paper/70 transition hover:text-paper"
+        aria-label="Play the full showreel"
+        data-event="showreel_play"
+      >
+        <span class="flex h-7 w-7 items-center justify-center rounded-full border border-paper/30 transition group-hover:border-paper">
+          <svg width="9" height="9" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+            <path d="M2 1.5l10 5.5L2 12.5z" />
+          </svg>
+        </span>
+        Showreel
+      </button>
+    </div>
+  </div>
+
+  <div class="absolute bottom-6 right-6 z-10 hidden items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-paper/40 sm:right-12 sm:flex">
+    <span>Scroll</span>
+    <svg width="10" height="14" viewBox="0 0 10 14" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M5 1v11m0 0L1 8m4 4l4-4" />
+    </svg>
+  </div>
+</section>

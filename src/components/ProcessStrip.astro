@@ -1,0 +1,62 @@
+---
+const steps = [
+  {
+    n: '01',
+    title: 'Brief & approach',
+    body:
+      'Read the brief, ask the sharp questions, come back with a moodboard, shot list and a clear sense of the cut grammar before anyone packs a kit bag.',
+  },
+  {
+    n: '02',
+    title: 'Shoot day',
+    body:
+      'Direct on set. Red Komodo, Blackmagic or Sony — whichever suits. Lighting and sound packed in the car. Coverage that gives the edit somewhere to go.',
+  },
+  {
+    n: '03',
+    title: 'Edit suite',
+    body:
+      'Premiere, After Effects, Photoshop. Colour, sound design, motion. Cuts paced for the platform, not the timeline. Revisions tight, delivery tighter.',
+  },
+];
+---
+
+<section
+  id="process"
+  aria-label="Process"
+  class="border-t border-paper/10 px-6 py-28 sm:px-12 sm:py-40"
+>
+  <div class="mx-auto max-w-screen-2xl">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+      <div class="reveal md:col-span-5">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">02 — Process</p>
+        <h2 class="mt-4 text-4xl font-medium tracking-tight sm:text-6xl">
+          Fast on set,<br />precise in the suite.
+        </h2>
+        <p class="mt-8 max-w-md text-paper/60">
+          Most projects start with a brief and end with a delivered cut. The same hands run both halves — fewer handoffs, less drift, more time on the work itself.
+        </p>
+        <a
+          href="/about"
+          class="reveal reveal-d1 mt-8 inline-flex items-center gap-2 text-sm text-paper transition hover:text-paper/70"
+        >
+          Read more about me
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
+          </svg>
+        </a>
+      </div>
+      <ol class="reveal reveal-d1 grid grid-cols-1 gap-px overflow-hidden rounded-sm bg-paper/10 md:col-span-7">
+        {steps.map((s) => (
+          <li class="bg-ink p-7 sm:p-9">
+            <div class="flex items-baseline gap-5">
+              <span class="text-xs text-paper/30 tabular-nums">{s.n}</span>
+              <h3 class="text-xl font-medium tracking-tight sm:text-2xl">{s.title}</h3>
+            </div>
+            <p class="mt-4 max-w-md text-sm leading-relaxed text-paper/60 sm:text-base">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

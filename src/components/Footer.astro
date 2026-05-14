@@ -1,0 +1,50 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-paper/10 px-6 py-12 sm:px-12">
+  <div class="mx-auto grid max-w-screen-2xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <p class="text-xs uppercase tracking-[0.25em] text-paper/40">Studio</p>
+      <p class="mt-4 text-sm text-paper/80">{site.name}</p>
+      <p class="text-sm text-paper/60">{site.role}</p>
+      <p class="mt-2 text-sm text-paper/60">{site.location}</p>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-[0.25em] text-paper/40">Contact</p>
+      <p class="mt-4 text-sm">
+        <a href={`mailto:${site.email}`} class="text-paper/80 transition hover:text-paper">
+          {site.email}
+        </a>
+      </p>
+      <p class="text-sm">
+        <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-paper/60 transition hover:text-paper">
+          {site.phone}
+        </a>
+      </p>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-[0.25em] text-paper/40">Elsewhere</p>
+      <ul class="mt-4 space-y-1 text-sm">
+        <li><a href={site.socials.instagram} target="_blank" rel="noopener" class="text-paper/60 transition hover:text-paper">Instagram</a></li>
+        <li><a href={site.socials.linkedin} target="_blank" rel="noopener" class="text-paper/60 transition hover:text-paper">LinkedIn</a></li>
+        <li><a href={site.socials.vimeo} target="_blank" rel="noopener" class="text-paper/60 transition hover:text-paper">Vimeo</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-xs uppercase tracking-[0.25em] text-paper/40">Navigate</p>
+      <ul class="mt-4 space-y-1 text-sm">
+        <li><a href="/work" class="text-paper/60 transition hover:text-paper">Work</a></li>
+        <li><a href="/about" class="text-paper/60 transition hover:text-paper">About</a></li>
+        <li><a href="/cv" class="text-paper/60 transition hover:text-paper">CV</a></li>
+        <li><a href="/contact" class="text-paper/60 transition hover:text-paper">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mx-auto mt-12 flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 border-t border-paper/10 pt-6 text-[11px] uppercase tracking-[0.2em] text-paper/40">
+    <p>© {year} {site.name}. All rights reserved.</p>
+    <p>Built with Astro · Hosted on Cloudflare Pages</p>
+  </div>
+</footer>

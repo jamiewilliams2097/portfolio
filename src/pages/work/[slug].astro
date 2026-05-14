@@ -1,0 +1,17 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { projects, getProject } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const project = slug ? getProject(slug) : undefined;
+
+if (!project) {
+  return Astro.redirect('/404');
+}
+---
+
+<ProjectLayout project={project} />

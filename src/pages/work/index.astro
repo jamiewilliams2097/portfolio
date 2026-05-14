@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ContactCTA from '../../components/ContactCTA.astro';
+import { sortedProjects, filters } from '../../data/projects';
+import { site } from '../../data/site';
+
+const title = `Work — ${site.name}`;
+const description = `A selection of branded, social and documentary work by ${site.name}. Filter by sector or format.`;
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: sortedProjects.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(`/work/${p.slug}`, site.url).toString(),
+    name: p.title,
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} structuredData={[itemListSchema]}>
+  <section class="px-6 pb-12 pt-32 sm:px-12 sm:pb-20 sm:pt-40">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="reveal flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">Selected work</p>
+          <h1 class="mt-4 max-w-3xl text-5xl font-medium leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-8xl">
+            Work.
+          </h1>
+        </div>
+        <p class="max-w-md text-sm text-paper/60 sm:text-base">
+          A working archive of campaign, social and freelance projects. Click any tile for the full case study.
+        </p>
+      </div>
+
+      <!-- Filters -->
+      <div class="reveal reveal-d1 mt-12 flex flex-wrap items-center gap-2 border-t border-paper/10 pt-8 sm:gap-3">
+        <span class="mr-3 text-[10px] uppercase tracking-[0.25em] text-paper/40">Filter</span>
+        {filters.sectors.map((s) => (
+          <button
+            type="button"
+            class="filter-pill rounded-full border border-paper/20 px-3 py-1.5 text-xs text-paper/70 transition hover:border-paper hover:text-paper sm:text-sm"
+            data-filter-sector={s}
+            aria-pressed={s === 'All' ? 'true' : 'false'}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-32 sm:px-12 sm:pb-40">
+    <div class="mx-auto max-w-screen-2xl">
+      <ul id="work-grid" class="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-x-10 md:gap-y-20">
+        {sortedProjects.map((p, i) => (
+          <li data-card data-sector={p.sector}>
+            <ProjectCard project={p} index={i} variant="grid" />
+          </li>
+        ))}
+      </ul>
+
+      <p id="work-empty" class="reveal mt-20 hidden max-w-md text-sm text-paper/40">
+        No projects match those filters yet — try a different combination, or get in touch.
+      </p>
+    </div>
+  </section>
+
+  <ContactCTA index="— Contact" />
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter-sector]');
+    const cards = document.querySelectorAll<HTMLLIElement>('[data-card]');
+    const empty = document.getElementById('work-empty');
+
+    function applyFilter(sector: string) {
+      buttons.forEach((b) =>
+        b.setAttribute(
+          'aria-pressed',
+          b.getAttribute('data-filter-sector') === sector ? 'true' : 'false',
+        ),
+      );
+      let visible = 0;
+      cards.forEach((c) => {
+        const match = sector === 'All' || c.getAttribute('data-sector') === sector;
+        c.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      if (empty) empty.classList.toggle('hidden', visible !== 0);
+    }
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const s = b.getAttribute('data-filter-sector') || 'All';
+        applyFilter(s);
+        window.dispatchEvent(
+          new CustomEvent('jw:event', { detail: { name: 'work_filter', sector: s } }),
+        );
+      }),
+    );
+  </script>
+</BaseLayout>

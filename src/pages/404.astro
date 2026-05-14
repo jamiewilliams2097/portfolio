@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title={`Not found — ${site.name}`} description="The page you were after isn’t here." noindex>
+  <section class="flex min-h-[80svh] items-center px-6 py-32 sm:px-12">
+    <div class="mx-auto w-full max-w-screen-2xl">
+      <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">404</p>
+      <h1 class="mt-4 max-w-4xl text-5xl font-medium leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-8xl">
+        Cut to black<span class="text-accent">.</span>
+      </h1>
+      <p class="mt-8 max-w-2xl text-base text-paper/70 sm:text-lg">
+        The page you were after has gone walkabout. Try one of these instead.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="/" class="rounded-full bg-paper px-5 py-2.5 text-sm font-medium text-ink transition hover:bg-paper/90">Home</a>
+        <a href="/work" class="rounded-full border border-paper/30 px-5 py-2.5 text-sm transition hover:bg-paper hover:text-ink">See the work</a>
+        <a href="/contact" class="rounded-full border border-paper/30 px-5 py-2.5 text-sm transition hover:bg-paper hover:text-ink">Contact</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import { testimonials } from '../data/testimonials';
+
+// Empty-state safe — render nothing if no testimonials are configured.
+const items = testimonials;
+---
+
+{items.length > 0 && (
+  <section
+    id="testimonials"
+    aria-label="Testimonials"
+    class="border-t border-paper/10 px-6 py-28 sm:px-12 sm:py-40"
+  >
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="reveal mb-12 flex flex-col gap-4 sm:mb-20 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">03 — Testimonials</p>
+          <h2 class="mt-4 text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl">
+            What clients say.
+          </h2>
+        </div>
+      </div>
+
+      <ul class="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-x-12 md:gap-y-16">
+        {items.map((t, i) => (
+          <li class={`reveal reveal-d${(i % 4) + 1}`}>
+            <figure>
+              <blockquote class="pullquote pl-6 sm:pl-10">
+                <p>{t.quote}</p>
+              </blockquote>
+              <figcaption class="mt-6 flex items-baseline gap-3 pl-6 text-sm sm:pl-10">
+                <span class="text-paper">{t.author}</span>
+                <span class="text-paper/40">·</span>
+                <span class="text-paper/60">{t.role}</span>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

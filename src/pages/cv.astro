@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { site } from '../data/site';
+import {
+  profile,
+  keySkills,
+  experience,
+  sideProjects,
+  education,
+  outsideOfWork,
+} from '../data/cv';
+
+const title = `CV — ${site.name}`;
+const description = `Curriculum vitae for ${site.name}, ${site.role}, ${site.location}.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="px-6 pb-20 pt-32 sm:px-12 sm:pb-32 sm:pt-40">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="reveal flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">Curriculum Vitae</p>
+          <h1 class="mt-4 max-w-3xl text-5xl font-medium leading-[1.02] tracking-[-0.03em] sm:text-7xl md:text-8xl">
+            CV<span class="text-accent">.</span>
+          </h1>
+          <p class="mt-4 text-sm text-paper/60 sm:text-base">
+            {site.fullName} · {site.role} · {site.location}
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={site.cvPdfPath}
+            class="inline-flex items-center gap-2 rounded-full bg-paper px-5 py-2.5 text-sm font-medium text-ink transition hover:bg-paper/90"
+            download
+            data-event="cv_download"
+          >
+            Download PDF
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M7 2v8m0 0L3 6m4 4l4-4M2 12h10" />
+            </svg>
+          </a>
+          <a
+            href={`mailto:${site.email}?subject=CV enquiry`}
+            class="inline-flex items-center gap-2 rounded-full border border-paper/30 px-5 py-2.5 text-sm transition hover:bg-paper hover:text-ink"
+          >
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profile -->
+  <section class="border-t border-paper/10 px-6 py-16 sm:px-12 sm:py-24">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+        <div class="reveal md:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Profile</p>
+        </div>
+        <p class="reveal reveal-d1 max-w-3xl text-xl font-light leading-snug tracking-tight text-paper/85 md:col-span-9 sm:text-2xl md:text-3xl">
+          {profile}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section class="border-t border-paper/10 px-6 py-16 sm:px-12 sm:py-24">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+        <div class="reveal md:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Experience</p>
+        </div>
+        <div class="md:col-span-9">
+          {experience.map((role, i) => (
+            <article class={`reveal reveal-d${(i % 4) + 1} ${i > 0 ? 'mt-16 border-t border-paper/10 pt-16' : ''}`}>
+              <header class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+                <div>
+                  <h2 class="text-2xl font-medium tracking-tight sm:text-3xl">{role.title}</h2>
+                  <p class="mt-1 text-sm text-paper/60 sm:text-base">{role.org}</p>
+                </div>
+                <p class="text-sm uppercase tracking-[0.2em] text-paper/40">{role.period}</p>
+              </header>
+              <ul class="mt-6 space-y-3 text-sm leading-relaxed text-paper/70 sm:text-base">
+                {role.bullets.map((b) => (
+                  <li class="flex gap-3">
+                    <span class="mt-2 inline-block h-px w-3 shrink-0 bg-paper/40"></span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Skills -->
+  <section class="border-t border-paper/10 px-6 py-16 sm:px-12 sm:py-24">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+        <div class="reveal md:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Key skills</p>
+        </div>
+        <ul class="reveal reveal-d1 grid grid-cols-1 gap-3 text-sm text-paper/80 md:col-span-9 sm:text-base">
+          {keySkills.map((s, i) => (
+            <li class="flex gap-4 border-b border-paper/10 pb-3">
+              <span class="text-xs text-paper/30 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+              <span>{s}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Side Projects -->
+  <section class="border-t border-paper/10 px-6 py-16 sm:px-12 sm:py-24">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+        <div class="reveal md:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Side projects</p>
+        </div>
+        <ul class="md:col-span-9 space-y-8">
+          {sideProjects.map((s, i) => (
+            <li class={`reveal reveal-d${(i % 4) + 1}`}>
+              <h3 class="text-xl font-medium tracking-tight sm:text-2xl">{s.name}</h3>
+              <p class="mt-2 max-w-3xl text-sm leading-relaxed text-paper/70 sm:text-base">{s.tagline}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="border-t border-paper/10 px-6 py-16 sm:px-12 sm:py-24">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+        <div class="reveal md:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Education</p>
+        </div>
+        <ul class="reveal reveal-d1 space-y-3 text-sm text-paper/80 md:col-span-9 sm:text-base">
+          {education.map((e) => (
+            <li>{e.line}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outside of work -->
+  <section class="border-t border-paper/10 px-6 py-16 sm:px-12 sm:py-24">
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+        <div class="reveal md:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Outside of work</p>
+        </div>
+        <p class="reveal reveal-d1 max-w-3xl text-base text-paper/70 md:col-span-9 sm:text-lg">
+          {outsideOfWork}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <ContactCTA index="— Contact" />
+</BaseLayout>

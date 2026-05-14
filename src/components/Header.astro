@@ -1,0 +1,124 @@
+---
+import { site } from '../data/site';
+
+const { pathname } = Astro.url;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/' || pathname === '';
+  return pathname === href || pathname.startsWith(href + '/');
+};
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/work', label: 'Work' },
+  { href: '/about', label: 'About' },
+  { href: '/cv', label: 'CV' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-paper focus:px-3 focus:py-2 focus:text-sm focus:text-ink"
+>
+  Skip to content
+</a>
+
+<header
+  id="site-nav"
+  class="fixed inset-x-0 top-0 z-40 transition-all duration-300"
+>
+  <div class="mx-auto flex max-w-screen-2xl items-center justify-between px-6 py-4 sm:px-12">
+    <a
+      href="/"
+      class="group flex items-baseline gap-2 text-sm font-medium tracking-tight"
+      aria-label={`${site.name}, home`}
+    >
+      <span class="inline-flex h-6 w-6 items-center justify-center rounded-sm bg-paper text-ink transition-colors group-hover:bg-accent">
+        <svg width="9" height="9" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+          <path d="M2 1.5l10 5.5L2 12.5z" />
+        </svg>
+      </span>
+      <span>{site.name}</span>
+      <span class="hidden text-paper/40 lg:inline">— {site.role}</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden gap-7 text-sm md:flex">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={isActive(l.href) ? 'page' : undefined}
+          class:list={[
+            'transition',
+            isActive(l.href) ? 'text-paper' : 'text-paper/60 hover:text-paper',
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="/contact"
+        class="rounded-full border border-paper/30 px-4 py-1.5 text-xs transition hover:bg-paper hover:text-ink sm:text-sm"
+      >
+        Start a project
+      </a>
+      <button
+        type="button"
+        id="nav-menu-toggle"
+        class="flex h-9 w-9 items-center justify-center rounded-full border border-paper/30 md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M2 4h10M2 7h10M2 10h10" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="nav-menu"
+    class="hidden border-t border-paper/10 bg-ink/95 px-6 py-6 backdrop-blur md:hidden"
+    aria-hidden="true"
+  >
+    <nav aria-label="Mobile" class="flex flex-col gap-3 text-base">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={isActive(l.href) ? 'page' : undefined}
+          class:list={[
+            'transition',
+            isActive(l.href) ? 'text-paper' : 'text-paper/70 hover:text-paper',
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  function onScroll() {
+    if (!nav) return;
+    if (window.scrollY > 16) nav.classList.add('nav-scrolled');
+    else nav.classList.remove('nav-scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const toggle = document.getElementById('nav-menu-toggle');
+  const menu = document.getElementById('nav-menu');
+  toggle?.addEventListener('click', () => {
+    if (!menu) return;
+    const open = menu.classList.contains('hidden');
+    menu.classList.toggle('hidden', !open);
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+</script>

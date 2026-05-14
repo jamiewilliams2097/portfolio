@@ -1,0 +1,70 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  heading?: string;
+  sub?: string;
+  index?: string;
+}
+
+const {
+  heading = "Need an editor who can shape the story and ship the cut?",
+  sub = "Send a brief, a deadline or a half-formed idea — I'll come back with a clear way forward.",
+  index = '05 — Contact',
+} = Astro.props;
+---
+
+<section
+  id="contact"
+  class="border-t border-paper/10 px-6 py-28 sm:px-12 sm:py-48"
+>
+  <div class="mx-auto max-w-screen-2xl">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-16">
+      <div class="reveal md:col-span-3">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">{index}</p>
+      </div>
+      <div class="md:col-span-9">
+        <h2 class="reveal text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl">
+          {heading}
+        </h2>
+        <p class="reveal reveal-d1 mt-8 max-w-xl text-paper/70 sm:text-lg">
+          {sub}
+        </p>
+
+        <a
+          href={`mailto:${site.email}?subject=Project enquiry`}
+          class="reveal reveal-d2 group mt-14 inline-flex flex-wrap items-baseline gap-3 text-2xl font-medium tracking-tight transition hover:text-paper/60 sm:text-4xl md:text-5xl"
+          data-event="cta_email"
+        >
+          {site.email}
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 14 14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+            class="transition-transform group-hover:translate-x-1"
+          >
+            <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
+          </svg>
+        </a>
+
+        <div class="reveal reveal-d3 mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-paper/60">
+          <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="transition hover:text-paper" data-event="cta_phone">
+            {site.phone}
+          </a>
+          <span class="text-paper/20" aria-hidden="true">/</span>
+          <a href="/contact" class="transition hover:text-paper" data-event="cta_contact_page">
+            Send a brief →
+          </a>
+          <span class="text-paper/20" aria-hidden="true">/</span>
+          <a href={site.cvPdfPath} class="transition hover:text-paper" data-event="cv_download" download>
+            Download CV
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

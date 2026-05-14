@@ -1,0 +1,29 @@
+---
+import { stats, logos } from '../data/stats';
+---
+
+<section aria-label="Trust" class="border-y border-paper/10">
+  <div class="mx-auto max-w-screen-2xl px-6 sm:px-12">
+    <dl class="grid grid-cols-2 gap-px overflow-hidden bg-paper/10 sm:grid-cols-4">
+      {stats.map((s) => (
+        <div class="reveal flex flex-col gap-2 bg-ink px-5 py-8 sm:px-8 sm:py-12">
+          <dt class="text-[10px] uppercase tracking-[0.25em] text-paper/40">{s.label}</dt>
+          <dd class="text-3xl font-medium tracking-tight tabular-nums sm:text-5xl">{s.value}</dd>
+        </div>
+      ))}
+    </dl>
+
+    {logos.length > 0 && (
+      <div class="reveal flex flex-wrap items-center justify-between gap-x-12 gap-y-6 border-t border-paper/10 py-8 sm:py-12">
+        <p class="text-[10px] uppercase tracking-[0.25em] text-paper/40">Trusted by</p>
+        <ul class="flex flex-wrap items-center gap-x-10 gap-y-6 opacity-70 grayscale">
+          {logos.map((l) => (
+            <li class="text-sm text-paper/70">
+              {l.src ? <img src={l.src} alt={l.alt} class="h-7 w-auto" /> : l.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>

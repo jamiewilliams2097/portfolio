@@ -1,0 +1,44 @@
+---
+import { featuredProjects } from '../data/projects';
+import ProjectCard from './ProjectCard.astro';
+---
+
+<section id="work" class="px-6 py-28 sm:px-12 sm:py-40">
+  <div class="mx-auto max-w-screen-2xl">
+    <div class="reveal mb-12 flex flex-col gap-4 sm:mb-20 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-[10px] uppercase tracking-[0.3em] text-paper/40">01 — Selected work</p>
+        <h2 class="mt-4 text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl">
+          Three of the best.
+        </h2>
+      </div>
+      <p class="max-w-xs text-sm text-paper/60">
+        A short selection across automotive, brand campaign and social. The fuller archive lives on the work page.
+      </p>
+    </div>
+
+    <ul class="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-x-10 md:gap-y-20">
+      {featuredProjects.map((p, i) => (
+        <li>
+          <ProjectCard project={p} index={i} variant="featured" />
+        </li>
+      ))}
+    </ul>
+
+    <div class="reveal mt-16 flex flex-wrap items-center justify-between gap-4 sm:mt-24">
+      <p class="max-w-md text-sm text-paper/40">
+        More on request — case studies, raw masters and turnaround examples available for serious enquiries.
+      </p>
+      <a
+        href="/work"
+        class="group inline-flex items-center gap-2 text-sm text-paper transition hover:text-paper/70"
+        data-event="cta_see_all_work"
+      >
+        See all work
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">
+          <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
