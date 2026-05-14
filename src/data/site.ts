@@ -13,9 +13,12 @@ export const site = {
 
   positioning: 'Cuts with pace, clarity and emotional timing.',
   subheading:
-    'Freelance video editor and shoot director crafting branded, social and documentary films with a sharp editorial eye.',
+    'Video editor and shoot director making sharp, practical films for brands, agencies and social. Derbyshire-based, UK-wide.',
   description:
-    'Jamie Williams — freelance video editor and shoot director based in Derbyshire. Branded, social and documentary work for agencies and direct clients.',
+    'Jamie Williams — freelance video editor and shoot director based in Derbyshire. Practical, polished work for brands, agencies and social.',
+
+  // TODO: keep this in sync with what you're actually working on, or set to '' to hide the footer line.
+  currentlyEditing: '' as string,
 
   // TODO: replace with the live Vimeo showreel ID once cut.
   showreelVimeoId: '76979871',

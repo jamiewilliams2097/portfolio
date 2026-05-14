@@ -39,6 +39,19 @@ const eager = index < 2;
         decoding="async"
         class="tile-img absolute inset-0 h-full w-full object-cover"
       />
+
+      {project.previewSrc && (
+        <video
+          class="tile-preview absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500"
+          data-src={project.previewSrc}
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-hidden="true"
+        ></video>
+      )}
+
       <div class="absolute inset-0 bg-gradient-to-t from-ink/60 via-ink/0 to-ink/20 transition-opacity duration-500 group-hover:from-ink/40"></div>
 
       <div class="absolute left-4 top-4 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-paper/85">
@@ -66,10 +79,47 @@ const eager = index < 2;
 
     <p class="mt-3 max-w-md text-sm leading-relaxed text-paper/70">{project.blurb}</p>
 
-    <ul class="mt-4 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.2em] text-paper/50">
+    <ul class="mt-4 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.2em] text-paper/50" aria-label="Role">
+      <li class="text-paper/40">Role —</li>
       {project.roles.map((r) => (
         <li class="rounded-full border border-paper/15 px-2 py-1">{r}</li>
       ))}
     </ul>
   </a>
 </article>
+
+<script>
+  // Hover preview: lazy-load video on first hover, play on hover, pause + reset on leave.
+  // Skipped under prefers-reduced-motion and on touch-primary devices (no real hover).
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (!reducedMotion && finePointer) {
+    document.querySelectorAll<HTMLElement>('.group').forEach((card) => {
+      const video = card.querySelector<HTMLVideoElement>('.tile-preview');
+      if (!video) return;
+      const src = video.getAttribute('data-src');
+      if (!src) return;
+
+      let loaded = false;
+      const enter = () => {
+        if (!loaded) {
+          video.src = src;
+          loaded = true;
+        }
+        video.play().catch(() => {});
+        video.style.opacity = '1';
+      };
+      const leave = () => {
+        video.pause();
+        video.currentTime = 0;
+        video.style.opacity = '0';
+      };
+
+      card.addEventListener('mouseenter', enter);
+      card.addEventListener('mouseleave', leave);
+      card.addEventListener('focusin', enter);
+      card.addEventListener('focusout', leave);
+    });
+  }
+</script>

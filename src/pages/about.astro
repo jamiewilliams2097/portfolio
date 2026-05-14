@@ -1,12 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactCTA from '../components/ContactCTA.astro';
-import Marquee from '../components/Marquee.astro';
 import { site } from '../data/site';
 import { sideProjects, outsideOfWork } from '../data/cv';
 
 const title = `About — ${site.name}`;
-const description = `${site.name} is a freelance video editor and shoot director based in ${site.location}. Branded, social and documentary work for agencies and direct clients.`;
+const description = `${site.name} is a freelance video editor and shoot director based in ${site.location}. Practical, polished video for brands, agencies and social.`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -26,28 +25,26 @@ const description = `${site.name} is a freelance video editor and shoot director
         </div>
         <div class="md:col-span-9">
           <p class="reveal text-2xl font-light leading-snug tracking-tight sm:text-4xl md:text-5xl">
-            I&rsquo;m {site.name} — a video editor and shoot director based in {site.location}.
-            At <span class="text-paper">Impress Video</span> I work across 20+ brands —
-            healthcare, dental, fitness, lifestyle, charity and digital media — scripting,
-            directing, shooting and cutting everything from multi-day campaigns to sub-30-second social.
+            I&rsquo;m {site.name} — a hands-on editor and videographer in {site.location}. I&rsquo;m useful
+            because I can shoot it, shape it and actually ship the cut. At <span class="text-paper">Impress Video</span>
+            I work across 20+ brands in healthcare, dental, fitness, lifestyle, charity and digital media —
+            owning shoots end-to-end, from script and shot list through edit and delivery.
           </p>
-          <p class="reveal reveal-d1 mt-10 max-w-2xl text-base text-paper/65 sm:text-lg">
+          <p class="reveal reveal-d1 mt-10 max-w-2xl text-base text-paper/70 sm:text-lg">
             Roughly a shoot a week, comfortable on Red Komodo, Blackmagic or Sony, with lighting and sound
             packed in the car. Before that, six years freelance — turning teenage YouTube edits into a paying
-            client base, with content reaching hundreds of thousands of views. The freelance years gave me
-            the pickup-shot intuition and channel-pacing instinct that still shape every cut.
+            client base. The freelance years gave me the pickup-shot intuition and channel-pacing instinct
+            that still shape every cut.
           </p>
-          <p class="reveal reveal-d2 mt-6 max-w-2xl text-base text-paper/65 sm:text-lg">
-            I lead Instagram strategy across three pillars — comedy and reach, education, and business
-            authority — writing scripts, building shot lists and editing the cuts. Posts have reached
-            hundreds of thousands of views. Senior client relationships across the full project lifecycle.
+          <p class="reveal reveal-d2 mt-6 max-w-2xl text-base text-paper/70 sm:text-lg">
+            I lead Instagram strategy at Impress across three pillars — comedy and reach, education, and
+            business authority — writing scripts, building shot lists and editing the cuts. Senior client
+            relationships across the full project lifecycle.
           </p>
         </div>
       </div>
     </div>
   </section>
-
-  <Marquee words={['Premiere Pro', 'After Effects', 'Photoshop', 'Red Komodo', 'Blackmagic', 'Sony', 'Lighting', 'Sound']} />
 
   <!-- Tools / Cameras / Languages -->
   <section class="border-t border-paper/10 px-6 py-20 sm:px-12 sm:py-32">
