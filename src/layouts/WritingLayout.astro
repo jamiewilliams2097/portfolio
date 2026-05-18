@@ -1,0 +1,160 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+
+const {
+  title = `Script Writing — ${site.name}`,
+  description = `Short-form video scripts, hooks and ad concepts by ${site.name}. Written for the first two seconds, the turn, and the payoff.`,
+  canonical = new URL(Astro.url.pathname, site.url).toString(),
+} = Astro.props;
+
+const ogImage = site.ogImage.startsWith('http')
+  ? site.ogImage
+  : new URL(site.ogImage, site.url).toString();
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.fullName,
+  jobTitle: site.role,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  telephone: site.phone,
+};
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: canonical,
+  isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
+  about: {
+    '@type': 'CreativeWork',
+    name: 'Short-form video script writing',
+    creator: { '@type': 'Person', name: site.fullName },
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f5f5f4" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={site.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+    {site.cloudflareAnalyticsToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${site.cloudflareAnalyticsToken}"}`}
+      ></script>
+    )}
+  </head>
+  <body class="writing-zone min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-ink focus:px-3 focus:py-2 focus:text-sm focus:text-paper"
+    >
+      Skip to content
+    </a>
+
+    <header class="px-6 pt-8 sm:px-12 sm:pt-10">
+      <div class="mx-auto max-w-screen-2xl">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-ink/45">
+          <a
+            href="/"
+            class="transition hover:text-ink"
+            data-event="writing_identity_link"
+            aria-label={`${site.name}, main portfolio`}
+          >
+            {site.name}
+          </a>
+          <span class="mx-2 text-ink/25" aria-hidden="true">·</span>
+          <span>Script writing</span>
+        </p>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="px-6 py-10 sm:px-12">
+      <div class="mx-auto max-w-screen-2xl border-t border-ink/10 pt-6 text-[11px] uppercase tracking-[0.2em] text-ink/40">
+        <p>© {new Date().getFullYear()} {site.name} · Script writing</p>
+      </div>
+    </footer>
+
+    <script>
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+        );
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+      }
+
+      // Same analytics bridge as BaseLayout so writing-page events end up in the same bucket.
+      type AnalyticsDetail = { name: string; [k: string]: unknown };
+      function track(detail: AnalyticsDetail) {
+        const w = window as unknown as { __jw_events?: AnalyticsDetail[] };
+        if (w.__jw_events) w.__jw_events.push(detail);
+        else w.__jw_events = [detail];
+      }
+      document.querySelectorAll<HTMLElement>('[data-event]').forEach((el) => {
+        el.addEventListener('click', () => {
+          const name = el.getAttribute('data-event') || 'click';
+          track({ name });
+        });
+      });
+    </script>
+  </body>
+</html>
