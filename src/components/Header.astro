@@ -3,12 +3,14 @@ import { site } from '../data/site';
 
 const { pathname } = Astro.url;
 const isActive = (href: string) => {
-  if (href === '/') return pathname === '/' || pathname === '';
   return pathname === href || pathname.startsWith(href + '/');
 };
 
+// "Home" points to the main videography/editing portfolio. The site root (/)
+// is a deliberately blank black screen, so we route the nav home link to the
+// real portfolio entry point instead.
 const links = [
-  { href: '/', label: 'Home' },
+  { href: '/videographyediting', label: 'Home' },
   { href: '/work', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/cv', label: 'CV' },
@@ -29,7 +31,7 @@ const links = [
 >
   <div class="mx-auto flex max-w-screen-2xl items-center justify-between px-6 py-4 sm:px-12">
     <a
-      href="/"
+      href="/videographyediting"
       class="group flex items-baseline gap-2 text-sm font-medium tracking-tight"
       aria-label={`${site.name}, home`}
     >

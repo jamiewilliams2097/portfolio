@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import Marquee from '../components/Marquee.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import ProcessStrip from '../components/ProcessStrip.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ContactCTA from '../components/ContactCTA.astro';
+import { site } from '../data/site';
+
+const title = `${site.name} · ${site.role}`;
+const canonical = new URL('/videographyediting', site.url).toString();
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: canonical,
+  description: site.description,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={site.description}
+  canonical={canonical}
+  structuredData={[websiteSchema]}
+>
+  <Hero />
+  <TrustStrip />
+  <Marquee />
+  <FeaturedWork />
+  <ProcessStrip />
+  <Testimonials />
+  <!-- When testimonials become populated, bump this to "04 · Contact". -->
+  <ContactCTA index="03 · Contact" />
+</BaseLayout>

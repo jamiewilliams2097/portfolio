@@ -19,7 +19,17 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404'),
+      // Exclude the 404 page and the deliberately blank black-screen root.
+      filter: (page) => {
+        if (page.includes('/404')) return false;
+        try {
+          const pathname = new URL(page).pathname;
+          if (pathname === '/' || pathname === '') return false;
+        } catch {
+          // If page is not parseable as a URL, fall through and include it.
+        }
+        return true;
+      },
       changefreq: 'monthly',
       priority: 0.7,
     }),

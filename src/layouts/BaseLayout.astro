@@ -27,12 +27,14 @@ const {
 
 const fullOg = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site.url).toString();
 
+// Person.url points at the live portfolio page rather than the site root,
+// because the root is a deliberately blank black screen (noindex).
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: site.fullName,
   jobTitle: site.role,
-  url: site.url,
+  url: new URL('/videographyediting', site.url).toString(),
   email: `mailto:${site.email}`,
   telephone: site.phone,
   address: {
