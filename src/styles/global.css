@@ -246,33 +246,50 @@ dialog#lightbox {
   text-wrap: balance;
 }
 
-/* ----- Ambient typing box ------------------------------------------------ */
+/* ----- Notes from the desk (small dotted-box gizmo) ---------------------- */
 
-.writing-zone .typing-box {
+.writing-zone .notes-box {
+  max-width: 36rem;
+  padding: 1.35rem 1.5rem 1.5rem;
+  background: transparent;
+  border: 1px dotted rgba(10, 10, 10, 0.42);
+  border-radius: 2px;
+}
+
+/* ----- Contact section headshot ----------------------------------------- */
+.writing-zone .contact-headshot {
+  width: 8rem;
+  height: 8rem;
+  display: block;
+  object-fit: cover;
   border: 1px solid rgba(10, 10, 10, 0.1);
-  background: rgba(10, 10, 10, 0.025);
-  padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
-/* Compact rail variant: lives in the hero left column on desktop,
-   collapses to a compact box below the hero on mobile. */
-.writing-zone .typing-box-rail {
-  padding: 1rem 1.15rem;
-}
-.writing-zone .typing-box-rail .typing-eyebrow {
-  font-size: 9px;
+.writing-zone .notes-box-eyebrow {
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.68);
 }
-.writing-zone .typing-box-rail .typing-line {
+
+.writing-zone .notes-box .typing-line {
   margin-top: 0.75rem;
-  font-size: clamp(0.82rem, 1.1vw, 0.92rem);
+  font-size: 0.95rem;
   line-height: 1.55;
-  min-height: 4.5em;
+  min-height: 3.4em;
+  color: rgba(10, 10, 10, 0.92);
 }
-.writing-zone .typing-box-rail .typing-static {
+
+.writing-zone .notes-box .typing-static {
   margin-top: 0.75rem;
-  font-size: clamp(0.78rem, 1vw, 0.88rem);
-  line-height: 1.55;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(10, 10, 10, 0.8);
 }
 
 .writing-zone .typing-eyebrow {
@@ -379,6 +396,209 @@ dialog#lightbox {
   display: block;
 }
 
+/* ----- Click-to-play cover button ----------------------------------------
+   Fills the .proof-slot absolutely; thumbnail behind, play icon centred. */
+
+.writing-zone .proof-cover-btn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: #0a0a0a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.writing-zone .proof-cover-btn img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.writing-zone .proof-cover-btn:hover img,
+.writing-zone .proof-cover-btn:focus-visible img {
+  opacity: 0.75;
+}
+
+.writing-zone .proof-cover-icon {
+  position: relative;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(245, 245, 244, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.writing-zone .proof-cover-btn:hover .proof-cover-icon,
+.writing-zone .proof-cover-btn:focus-visible .proof-cover-icon {
+  transform: scale(1.1);
+  background: rgba(245, 245, 244, 1);
+}
+
+/* Loaded iframe replaces the button; fills the slot identically */
+.writing-zone .proof-cover-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ----- Headshot portrait ------------------------------------------------- */
+
+.writing-zone .headshot-portrait {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  display: block;
+  object-fit: cover;
+  border: 1px solid rgba(10, 10, 10, 0.08);
+  border-radius: 2px;
+}
+@media (min-width: 768px) {
+  .writing-zone .headshot-portrait {
+    max-width: 100%;
+  }
+}
+
+/* ----- Identity line (top of every /writing page) ------------------------ */
+
+.writing-zone .identity-line {
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.75);
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 0.55em;
+}
+
+.writing-zone .identity-name {
+  color: rgba(10, 10, 10, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.writing-zone .identity-name:hover {
+  color: rgba(10, 10, 10, 1);
+}
+
+.writing-zone .identity-sep {
+  color: rgba(10, 10, 10, 0.3);
+}
+
+/* The identity line shares the typing-cursor blink — fine-tune its tone here. */
+.writing-zone .identity-line .typing-cursor {
+  color: rgba(10, 10, 10, 0.55);
+  margin-left: 0.15em;
+}
+
+/* ----- Section rule (editorial divider above each major section) --------- */
+
+.writing-zone .section-rule {
+  border: 0;
+  border-top: 1px solid rgba(10, 10, 10, 0.12);
+  margin: 0 0 2.5rem 0;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .writing-zone .section-rule {
+    margin-bottom: 3rem;
+  }
+}
+
+/* ----- Section header system ---------------------------------------------
+   One unified, deliberate three-line head that reads as a single unit.
+   Label feels intentional (not tiny). Title is strong but not oversized.
+   Blurb is the smallest weight, hugging the title. */
+
+.writing-zone .section-head {
+  margin-bottom: 3rem;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .writing-zone .section-head {
+    margin-bottom: 4rem;
+  }
+}
+.writing-zone .section-head[data-tight] {
+  margin-bottom: 1.5rem;
+}
+@media (min-width: 640px) {
+  .writing-zone .section-head[data-tight] {
+    margin-bottom: 2rem;
+  }
+}
+
+.writing-zone .section-title {
+  margin-top: 0;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: rgba(10, 10, 10, 0.95);
+  text-wrap: balance;
+}
+
+.writing-zone .section-blurb {
+  margin-top: 0.35rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(10, 10, 10, 0.58);
+  text-wrap: pretty;
+}
+@media (min-width: 640px) {
+  .writing-zone .section-blurb {
+    font-size: 0.95rem;
+  }
+}
+
+/* ----- Why it works (stacked label + body) -------------------------------
+   Force block + explicit row layout so the sentence never ends up beside the
+   label, regardless of any inherited flex/grid from ancestor wrappers. The
+   width is controlled by the parent (section wrapper or video card cell) so
+   the right edge always matches the surrounding content. */
+
+.writing-zone .why-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.writing-zone .why-label {
+  display: block;
+  margin: 0;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(10, 10, 10, 0.45);
+}
+
+.writing-zone .why-body {
+  display: block;
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(10, 10, 10, 0.8);
+}
+
 /* ----- Script excerpts (editorial pull quote) ---------------------------- */
 
 .writing-zone .script-excerpt {
@@ -389,7 +609,6 @@ dialog#lightbox {
   line-height: 1.45;
   letter-spacing: -0.01em;
   color: rgba(10, 10, 10, 0.88);
-  max-width: 60ch;
   border-left: 2px solid var(--color-accent);
   padding-left: clamp(1rem, 2vw, 1.5rem);
   text-wrap: pretty;

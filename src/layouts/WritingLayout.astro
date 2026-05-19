@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = `Script Writing — ${site.name}`,
+  title = `Script writing · ${site.name}`,
   description = `Short-form video scripts, hooks and ad concepts by ${site.name}. Written for the first two seconds, the turn, and the payoff.`,
   canonical = new URL(Astro.url.pathname, site.url).toString(),
 } = Astro.props;
@@ -99,17 +99,18 @@ const pageSchema = {
 
     <header class="px-6 pt-8 sm:px-12 sm:pt-10">
       <div class="mx-auto max-w-screen-2xl">
-        <p class="text-[11px] uppercase tracking-[0.3em] text-ink/45">
+        <p class="identity-line">
           <a
             href="/videographyediting"
-            class="transition hover:text-ink"
+            class="identity-name"
             data-event="writing_identity_link"
             aria-label={`${site.name}, main portfolio`}
           >
             {site.name}
           </a>
-          <span class="mx-2 text-ink/25" aria-hidden="true">·</span>
+          <span class="identity-sep" aria-hidden="true">·</span>
           <span>Script writing</span>
+          <span class="typing-cursor" aria-hidden="true">▏</span>
         </p>
       </div>
     </header>

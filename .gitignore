@@ -24,3 +24,11 @@ pnpm-debug.log*
 .idea/
 
 ScriptWritingVideoExamples/
+
+# Photoshop source files and PSD working folders (never ship)
+*.psd
+**/PSD/
+**/psd/
+# Root-only working folder of source thumbnails (anchored slash; do not exclude
+# public/thumbnails which is case-folded the same on Windows).
+/Thumbnails/

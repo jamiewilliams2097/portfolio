@@ -61,15 +61,6 @@ export type ScriptExcerpt = {
 
 export const scriptExcerpts: ScriptExcerpt[] = [
   {
-    slug: 'rhodes-wealth',
-    client: 'Rhodes Wealth Management',
-    format: 'About Us video. Brand story.',
-    role: 'Script. Interview structure. Story shaping.',
-    excerpt:
-      "Wealth management can be complicated, but it does not need to feel that way. We provide holistic financial advice that looks at the whole picture, not just the numbers. Many of our client relationships go back decades, built on culture, values and trust. We are not just here to manage money. We are here to improve lives.",
-    point: 'Makes a wealth management company feel human, not sales-led.',
-  },
-  {
     slug: 'impress-advert',
     client: 'Impress Video',
     format: 'Promotional advert.',
@@ -86,6 +77,15 @@ export const scriptExcerpts: ScriptExcerpt[] = [
     excerpt:
       "This is the new Polestar 4. And it has no rear window. Yeah, you heard that right. Instead, there's a live camera feed straight to the interior mirror, giving you a wider, clearer line of sight than any piece of glass ever could.",
     point: 'Turns a car walkthrough into a curiosity-led video.',
+  },
+  {
+    slug: 'rhodes-wealth',
+    client: 'Rhodes Wealth Management',
+    format: 'About Us video. Brand story.',
+    role: 'Script. Interview structure. Story shaping.',
+    excerpt:
+      "We do not just offer financial advice. We offer holistic financial advice. The kind that looks at the whole picture: your values, your culture and the life you want your family to have. We build long-standing relationships because people are trusting us with their future. Our job is not just to grow money. It is to improve lives.",
+    point: 'Positions the company around trust, care and long-term relationships.',
   },
 ];
 
@@ -109,7 +109,9 @@ export type ScriptToScreenItem = {
   whyItWorked: string | null;
   vimeoId: string;
   poster: string | null;
-  /** CSS aspect-ratio value for the embed slot, e.g. "9 / 16", "16 / 9", "1 / 1". */
+  /** Local 16:9 cover thumbnail under /public, e.g. "/thumbnails/foo.jpg". Falls back to vumbnail when null. */
+  thumbnail: string | null;
+  /** CSS aspect-ratio value for the embed slot. All cards now force 16/9 for grid consistency. */
   mediaAspect: string;
   permissionStatus: string;
   publicEmbed: boolean;
@@ -122,14 +124,15 @@ export const scriptToScreen: ScriptToScreenItem[] = [
     client: 'Impress Video',
     format: 'Promotional advert',
     role: 'Script / concept / structure / editing',
-    result: 'Generated many leads for Impress Video.',
+    result: 'Generated leads for Impress Video.',
     context:
       'An advert for the videography company I worked for. Designed to promote Impress as a creative video partner that makes brands more memorable.',
     whyItWorked:
       'Engaging, persuasive and built around a clear opening question that sells the value of video without just listing services.',
     vimeoId: '1193372785',
     poster: null,
-    mediaAspect: '1 / 1',
+    thumbnail: '/thumbnails/impress-advert.jpg',
+    mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
   },
@@ -146,7 +149,8 @@ export const scriptToScreen: ScriptToScreenItem[] = [
       'Audience comments described the promo as cinematic and hair-raising.',
     vimeoId: '1193379406',
     poster: null,
-    mediaAspect: '9 / 16',
+    thumbnail: '/thumbnails/ty-mitchell.png',
+    mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
   },
@@ -156,14 +160,15 @@ export const scriptToScreen: ScriptToScreenItem[] = [
     client: 'ALD Flex UK',
     format: 'LinkedIn presenter-led social video',
     role: 'Script / filming / editing / direction',
-    result: 'Performed very well on LinkedIn.',
+    result: 'Strong LinkedIn performance.',
     context:
       'A LinkedIn vehicle walkthrough built around a strong opening hook. The hook was based on the unusual fact that the Polestar 4 has no rear window and uses a live feed to the interior mirror.',
     whyItWorked:
       'Turns a standard car walkthrough into a curiosity-led product video.',
     vimeoId: '1193372650',
     poster: null,
-    mediaAspect: '1 / 1',
+    thumbnail: '/thumbnails/ald-polestar.jpg',
+    mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
   },
@@ -177,9 +182,10 @@ export const scriptToScreen: ScriptToScreenItem[] = [
     context:
       'An About Us video for a wealth management company. The writing needed to make the company feel human, trustworthy and values-led rather than sales-led.',
     whyItWorked:
-      'Positions the company as trustworthy, human and values-led.',
+      'Builds trust by focusing on responsibility, standards and life impact.',
     vimeoId: '1193372809',
     poster: null,
+    thumbnail: '/thumbnails/rhodes.jpg',
     mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
@@ -197,7 +203,8 @@ export const scriptToScreen: ScriptToScreenItem[] = [
       'A clear transformation idea that shows production skill while staying fun and easy to follow.',
     vimeoId: '1193372746',
     poster: null,
-    mediaAspect: '9 / 16',
+    thumbnail: '/thumbnails/coffee.jpg',
+    mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
   },
@@ -207,14 +214,15 @@ export const scriptToScreen: ScriptToScreenItem[] = [
     client: 'Eli Ankutse',
     format: 'Social video. Event-led creator content.',
     role: 'Structure / script / direction',
-    result: null,
+    result: 'Over 100,000 views.',
     context:
       "A video of Eli Ankutse going to see the Rolls Royce Boattail unveiled, described as the world's most expensive car to make.",
     whyItWorked:
       'Uses rarity, novelty and anticipation to make a rougher event-led video compelling enough to pass 100,000 views.',
     vimeoId: '1193372646',
     poster: null,
-    mediaAspect: '27 / 35',
+    thumbnail: '/thumbnails/eli-boattail.jpg',
+    mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
   },
@@ -231,6 +239,7 @@ export const scriptToScreen: ScriptToScreenItem[] = [
       "Built around grit and intensity, with the final voiceover changed to AI at the client's request.",
     vimeoId: '1193372647',
     poster: null,
+    thumbnail: '/thumbnails/huub.jpg',
     mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
@@ -244,10 +253,12 @@ export const scriptToScreen: ScriptToScreenItem[] = [
     result: null,
     context:
       'A regular Eli Ankutse Rolls Royce video. It did not perform as well as the Boattail piece, but better represents the usual style and quality of the work.',
-    whyItWorked: null,
+    whyItWorked:
+      'Shows how a natural, passionate delivery can come from clear scripting methods that give the presenter rhythm, structure and confidence.',
     vimeoId: '1193372651',
     poster: null,
-    mediaAspect: '27 / 28',
+    thumbnail: '/thumbnails/eli-rolls.jpg',
+    mediaAspect: '16 / 9',
     permissionStatus: 'Approved for portfolio use as work I contributed to',
     publicEmbed: true,
   },
@@ -334,8 +345,8 @@ export const voiceRange: VoiceMode[] = [
   },
   {
     name: 'Comedy',
-    example: 'Three things I learned the hard way. They are all my fault.',
-    use: 'For music-synced cuts and personality-led brand work.',
+    example: 'I tried to fix one problem and accidentally created three more.',
+    use: 'For personality-led scripts that need a sharper comic turn without becoming forced.',
   },
 ];
 

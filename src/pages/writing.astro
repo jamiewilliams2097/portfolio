@@ -14,40 +14,21 @@ const description =
   'Scripts, hooks and video ideas that hold attention. Adverts, brand films, social, presenter-led content and campaign ideas.';
 
 const mailto = `mailto:${site.email}?subject=${encodeURIComponent('Script writing enquiry')}`;
-
-// Per-entry max-width helper so portrait and square videos do not dominate the cell.
-function proofMaxWidth(aspect: string): string {
-  const [w, h] = aspect.split('/').map((s) => parseInt(s.trim(), 10));
-  if (!w || !h) return '100%';
-  const ratio = w / h;
-  if (ratio >= 1.4) return '100%'; // landscape (16/9)
-  if (ratio >= 0.9) return '380px'; // square / near-square (1/1, 27/28)
-  return '320px'; // portrait (9/16, 27/35)
-}
 ---
 
 <WritingLayout title={title} description={description}>
-  <!-- HERO + typing box rail -->
+  <!-- HERO ----------------------------------------------------------- -->
   <section class="px-6 pt-14 sm:px-12 sm:pt-20">
     <div class="mx-auto max-w-screen-2xl">
       <div class="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
-        <!-- Hero copy -->
-        <div class="reveal order-1 md:order-2 md:col-span-9">
-          <h1 class="max-w-[24ch] text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-ink sm:text-5xl md:text-6xl">
-            Scripts, hooks and video ideas that hold attention<span class="text-accent">.</span>
-          </h1>
-          <p class="mt-6 max-w-2xl text-base font-light leading-relaxed text-ink/70 sm:text-lg md:text-xl">
-            I write scripts for adverts, brand films, social videos, presenter-led content and campaign ideas. Built around the hook, the structure and the reason someone keeps watching.
-          </p>
-        </div>
 
-        <!-- Quiet side rail: Notes from the desk -->
+        <!-- Notes from the desk (left on desktop, below headline on mobile) -->
         <aside
-          class="reveal reveal-d1 order-2 md:order-1 md:col-span-3"
+          class="reveal reveal-d1 order-2 md:order-1 md:col-span-4"
           aria-labelledby="typing-heading"
         >
-          <div class="typing-box typing-box-rail mx-auto max-w-md md:max-w-none">
-            <p id="typing-heading" class="typing-eyebrow">Notes from the desk</p>
+          <div class="notes-box">
+            <p id="typing-heading" class="notes-box-eyebrow">Notes from the desk</p>
             <p class="typing-line" id="typing-line" aria-hidden="true">
               <span class="typing-text" data-typing></span><span class="typing-cursor" aria-hidden="true">▏</span>
             </p>
@@ -56,11 +37,22 @@ function proofMaxWidth(aspect: string): string {
             </ol>
           </div>
         </aside>
+
+        <!-- Headline + intro (right on desktop, top on mobile) -->
+        <div class="reveal order-1 md:order-2 md:col-span-8">
+          <h1 class="max-w-[24ch] text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-ink sm:text-5xl md:text-6xl">
+            Scripts, hooks and video ideas that hold attention<span class="text-accent">.</span>
+          </h1>
+          <p class="mt-6 max-w-2xl text-base font-light leading-relaxed text-ink/70 sm:text-lg md:text-xl">
+            I write scripts for adverts, brand films, social videos, presenter-led content and campaign ideas. Built around the hook, the structure and the reason someone keeps watching.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- 01 · SCRIPT EXCERPTS -->
+  <!-- 01 · SCRIPT EXCERPTS ------------------------------------------- -->
   <section class="px-6 pt-28 sm:px-12 sm:pt-40">
     <div class="mx-auto max-w-screen-2xl">
       <div class="reveal grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
@@ -78,19 +70,13 @@ function proofMaxWidth(aspect: string): string {
           {scriptExcerpts.map((s, i) => (
             <li class={`reveal reveal-d${(i % 4) + 1} border-t border-ink/15 pt-8 sm:pt-10`}>
               <p class="text-xs uppercase tracking-[0.2em] text-ink/55">{s.client}</p>
-
               <blockquote class="script-excerpt mt-5 sm:mt-6">
                 {s.excerpt}
               </blockquote>
-
-              <dl class="mt-6 grid grid-cols-[6rem_1fr] gap-x-4 gap-y-2 text-sm sm:mt-8">
-                <dt class="text-[10px] uppercase tracking-[0.25em] text-ink/40 pt-1">Role</dt>
-                <dd class="text-ink/85">{s.role}</dd>
-                <dt class="text-[10px] uppercase tracking-[0.25em] text-ink/40 pt-1">Format</dt>
-                <dd class="text-ink/85">{s.format}</dd>
-                <dt class="text-[10px] uppercase tracking-[0.25em] text-ink/40 pt-1">Why it works</dt>
-                <dd class="text-ink/85">{s.point}</dd>
-              </dl>
+              <div class="why-block mt-6 sm:mt-8">
+                <p class="why-label">Why it works</p>
+                <p class="why-body">{s.point}</p>
+              </div>
             </li>
           ))}
         </ol>
@@ -98,7 +84,7 @@ function proofMaxWidth(aspect: string): string {
     </div>
   </section>
 
-  <!-- 02 · SCRIPT TO SCREEN -->
+  <!-- 02 · SCRIPT TO SCREEN ------------------------------------------ -->
   <section class="px-6 pt-28 sm:px-12 sm:pt-40">
     <div class="mx-auto max-w-screen-2xl">
       <div class="reveal grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
@@ -108,25 +94,34 @@ function proofMaxWidth(aspect: string): string {
             Some scripts stay in a doc.<br />
             These made it to screen.
           </h2>
-          <p class="mt-6 max-w-xs text-sm leading-relaxed text-ink/55">
-            Real pieces I scripted, structured or creatively directed.
+          <p class="mt-6 max-w-xs text-sm leading-relaxed text-ink/70">
+            Scripts and concepts behind hundreds of thousands of views, lead-generating client work and strong social performance across client and creator channels.
           </p>
         </div>
 
-        <ul class="md:col-span-9 grid grid-cols-1 items-start gap-x-8 gap-y-14 sm:grid-cols-2 sm:gap-y-16">
+        <ul class="md:col-span-9 grid grid-cols-1 items-start gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-14">
           {scriptToScreen.map((item, i) => (
             <li class={`reveal reveal-d${(i % 4) + 1} flex flex-col`}>
-              <div
-                class="proof-slot mx-auto"
-                style={`aspect-ratio: ${item.mediaAspect}; max-width: ${proofMaxWidth(item.mediaAspect)};`}
-              >
-                <iframe
-                  src={`https://player.vimeo.com/video/${item.vimeoId}?dnt=1&title=0&byline=0&portrait=0&badge=0`}
-                  loading="lazy"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowfullscreen
-                  title={item.title}
-                ></iframe>
+              <div class="proof-slot" style={`aspect-ratio: ${item.mediaAspect};`}>
+                <button
+                  type="button"
+                  class="proof-cover-btn"
+                  data-vimeo-id={item.vimeoId}
+                  data-title={item.title}
+                  aria-label={`Play ${item.title}`}
+                >
+                  <img
+                    src={item.thumbnail ?? `https://vumbnail.com/${item.vimeoId}.jpg`}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                  />
+                  <span class="proof-cover-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+                      <path d="M3 2l9 5-9 5z" />
+                    </svg>
+                  </span>
+                </button>
               </div>
 
               <header class="mt-5">
@@ -134,22 +129,12 @@ function proofMaxWidth(aspect: string): string {
                 <p class="mt-1 text-xs uppercase tracking-[0.2em] text-ink/45">{item.client}</p>
               </header>
 
-              <dl class="mt-4 grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-2 text-sm">
-                <dt class="text-[10px] uppercase tracking-[0.25em] text-ink/40 pt-1">Role</dt>
-                <dd class="text-ink/85">{item.role}</dd>
-                {item.result && (
-                  <>
-                    <dt class="text-[10px] uppercase tracking-[0.25em] text-ink/40 pt-1">Result</dt>
-                    <dd class="text-ink/85">{item.result}</dd>
-                  </>
-                )}
-                {item.whyItWorked && (
-                  <>
-                    <dt class="text-[10px] uppercase tracking-[0.25em] text-ink/40 pt-1">Why it works</dt>
-                    <dd class="text-ink/85">{item.whyItWorked}</dd>
-                  </>
-                )}
-              </dl>
+              {item.whyItWorked && (
+                <div class="why-block mt-4">
+                  <p class="why-label">Why it works</p>
+                  <p class="why-body">{item.whyItWorked}</p>
+                </div>
+              )}
             </li>
           ))}
         </ul>
@@ -157,7 +142,7 @@ function proofMaxWidth(aspect: string): string {
     </div>
   </section>
 
-  <!-- 03 · REWRITES -->
+  <!-- 03 · REWRITES --------------------------------------------------- -->
   <section class="px-6 pt-28 sm:px-12 sm:pt-40">
     <div class="mx-auto max-w-screen-2xl">
       <div class="reveal grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
@@ -182,7 +167,7 @@ function proofMaxWidth(aspect: string): string {
                 <figure class="space-y-2">
                   <figcaption class="text-[10px] uppercase tracking-[0.25em] text-ink/40">Before</figcaption>
                   <p class="text-base font-light leading-snug text-ink/50 line-through decoration-ink/30 decoration-[1.5px] sm:text-lg">
-                    “{r.before}”
+                    "{r.before}"
                   </p>
                 </figure>
                 <div class="hidden text-ink/30 lg:block" aria-hidden="true">
@@ -193,7 +178,7 @@ function proofMaxWidth(aspect: string): string {
                 <figure class="space-y-2">
                   <figcaption class="text-[10px] uppercase tracking-[0.25em] text-ink/45">After</figcaption>
                   <p class="text-base font-medium leading-snug tracking-tight text-ink sm:text-lg">
-                    “{r.after}”
+                    "{r.after}"
                   </p>
                 </figure>
               </div>
@@ -209,7 +194,7 @@ function proofMaxWidth(aspect: string): string {
     </div>
   </section>
 
-  <!-- 04 · VOICE RANGE -->
+  <!-- 04 · VOICE RANGE ----------------------------------------------- -->
   <section class="px-6 pt-28 sm:px-12 sm:pt-40">
     <div class="mx-auto max-w-screen-2xl">
       <div class="reveal grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
@@ -222,6 +207,7 @@ function proofMaxWidth(aspect: string): string {
             Same writer, different register. The brief picks the lane; the voice carries the work.
           </p>
         </div>
+
         <ul class="md:col-span-9 grid grid-cols-1 gap-px overflow-hidden border border-ink/10 sm:grid-cols-2">
           {voiceRange.map((v, i) => (
             <li class={`reveal reveal-d${(i % 4) + 1} bg-paper p-6 sm:p-8`}>
@@ -231,7 +217,7 @@ function proofMaxWidth(aspect: string): string {
                 {v.name}
               </p>
               <p class="mt-4 text-lg font-light italic leading-snug tracking-tight text-ink sm:text-xl">
-                “{v.example}”
+                "{v.example}"
               </p>
               <p class="mt-4 text-sm leading-relaxed text-ink/55">{v.use}</p>
             </li>
@@ -241,59 +227,70 @@ function proofMaxWidth(aspect: string): string {
     </div>
   </section>
 
-  <!-- 05 · CONTACT -->
+  <!-- 05 · CONTACT --------------------------------------------------- -->
   <section class="px-6 py-28 sm:px-12 sm:py-40">
     <div class="mx-auto max-w-screen-2xl">
       <div class="reveal grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
         <div class="md:col-span-3">
           <p class="text-[10px] uppercase tracking-[0.3em] text-ink/50">05 · Contact</p>
-        </div>
-        <div class="md:col-span-9">
-          <h2 class="text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
-            Contact me here<span class="text-accent">.</span>
+          <h2 class="mt-4 text-3xl font-medium tracking-tight sm:text-4xl md:text-5xl">
+            Contact<span class="text-accent">.</span>
           </h2>
+        </div>
 
-          <a
-            href={mailto}
-            class="group mt-8 inline-flex flex-wrap items-baseline gap-3 text-xl font-medium tracking-tight text-ink transition hover:text-ink/60 sm:text-2xl md:text-3xl"
-            data-event="writing_cta_email"
-          >
-            {site.email}
-            <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="transition-transform group-hover:translate-x-1">
-              <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
-            </svg>
-          </a>
+        <div class="md:col-span-9">
+          <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-8">
+            <img
+              src="/Jamie-Williams-Headshot.jpg"
+              alt="Jamie Williams, scriptwriter"
+              class="contact-headshot"
+              width="160"
+              height="160"
+              loading="lazy"
+            />
+            <a
+              href={mailto}
+              class="group inline-flex flex-wrap items-baseline gap-3 text-xl font-medium tracking-tight text-ink transition hover:text-ink/60 sm:text-2xl md:text-3xl"
+              data-event="writing_cta_email"
+            >
+              {site.email}
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="transition-transform group-hover:translate-x-1">
+                <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Ambient typing box behaviour (writing zone only) -->
+  <!-- Scripts: ambient typing box + click-to-play -->
   <script define:vars={{ typingLines }}>
-    const target = document.querySelector('[data-typing]');
-    const line = document.getElementById('typing-line');
-    const staticList = document.getElementById('typing-static');
     const reduced =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (reduced || !target || !line) {
-      if (line) line.style.display = 'none';
+    const typingTarget = document.querySelector('[data-typing]');
+    const typingLine   = document.getElementById('typing-line');
+    const staticList   = document.getElementById('typing-static');
+
+    if (reduced || !typingTarget || !typingLine) {
+      if (typingLine) typingLine.style.display = 'none';
       if (staticList) staticList.classList.add('is-visible');
     } else {
       if (staticList) staticList.classList.add('sr-only');
 
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-      async function typeOne(text) {
-        target.textContent = '';
-        target.classList.remove('is-fading');
+      async function typeOne(el, text) {
+        el.textContent = '';
+        el.classList.remove('is-fading');
         for (let i = 0; i < text.length; i++) {
-          target.textContent = text.slice(0, i + 1);
+          el.textContent = text.slice(0, i + 1);
           await sleep(45 + Math.random() * 35);
         }
         await sleep(2500);
-        target.classList.add('is-fading');
+        el.classList.add('is-fading');
         await sleep(600);
       }
 
@@ -301,11 +298,25 @@ function proofMaxWidth(aspect: string): string {
         await sleep(800);
         while (true) {
           for (const t of typingLines) {
-            await typeOne(t);
+            await typeOne(typingTarget, t);
           }
           await sleep(1000);
         }
       })();
     }
+
+    document.querySelectorAll('.proof-cover-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id    = btn.getAttribute('data-vimeo-id');
+        const title = btn.getAttribute('data-title') || '';
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://player.vimeo.com/video/${id}?autoplay=1&dnt=1&title=0&byline=0&portrait=0&badge=0`;
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', title);
+        iframe.className = 'proof-cover-iframe';
+        btn.replaceWith(iframe);
+      });
+    });
   </script>
 </WritingLayout>
