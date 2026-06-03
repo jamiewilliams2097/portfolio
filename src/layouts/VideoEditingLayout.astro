@@ -6,15 +6,12 @@ interface Props {
   title?: string;
   description?: string;
   canonical?: string;
-  /** Sublabel shown after the name in the top identity line and footer. Defaults to the writing sublabel so /writing keeps its current look. */
-  sublabel?: string;
 }
 
 const {
-  title = `Script writing · ${site.name}`,
-  description = `Short-form video scripts, hooks and ad concepts by ${site.name}. Written for the first two seconds, the turn, and the payoff.`,
+  title = `Video editing · ${site.name}`,
+  description = `Video editing portfolio by ${site.name}. Branded, social and presenter-led video edited for pacing, story, sound and platform-ready delivery.`,
   canonical = new URL(Astro.url.pathname, site.url).toString(),
-  sublabel = 'Script writing',
 } = Astro.props;
 
 const ogImage = site.ogImage.startsWith('http')
@@ -40,7 +37,7 @@ const pageSchema = {
   isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
   about: {
     '@type': 'CreativeWork',
-    name: 'Short-form video script writing',
+    name: 'Video editing portfolio',
     creator: { '@type': 'Person', name: site.fullName },
   },
 };
@@ -51,8 +48,8 @@ const pageSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f5f5f4" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0a0b" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -76,9 +73,10 @@ const pageSchema = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://player.vimeo.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     />
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
@@ -92,28 +90,33 @@ const pageSchema = {
       ></script>
     )}
   </head>
-  <body class="writing-zone min-h-screen antialiased">
+  <body class="editing-zone min-h-screen antialiased">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-ink focus:px-3 focus:py-2 focus:text-sm focus:text-paper"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-paper focus:px-3 focus:py-2 focus:text-sm focus:text-ink"
     >
       Skip to content
     </a>
 
-    <header class="px-6 pt-8 sm:px-12 sm:pt-10">
-      <div class="mx-auto max-w-screen-2xl">
-        <p class="identity-line">
+    <header class="suite-topbar">
+      <div class="mx-auto flex max-w-screen-2xl items-center justify-between gap-6 px-6 py-5 sm:px-12">
+        <p class="suite-identity">
           <a
             href="/videographyediting"
-            class="identity-name"
-            data-event="writing_identity_link"
+            class="suite-identity-name"
+            data-event="videoediting_identity_link"
             aria-label={`${site.name}, main portfolio`}
           >
             {site.name}
           </a>
-          <span class="identity-sep" aria-hidden="true">·</span>
-          <span>{sublabel}</span>
-          <span class="typing-cursor" aria-hidden="true">▏</span>
+          <span class="suite-identity-sep" aria-hidden="true">·</span>
+          <span>Video editing portfolio</span>
+          <span class="suite-cursor" aria-hidden="true">▏</span>
+        </p>
+
+        <p class="suite-tc" aria-label="Live session timecode">
+          <span class="suite-tc-label">Session TC</span>
+          <span id="live-tc" class="suite-tc-value" data-live-tc>00:00:00:00</span>
         </p>
       </div>
     </header>
@@ -122,13 +125,16 @@ const pageSchema = {
       <slot />
     </main>
 
-    <footer class="px-6 py-10 sm:px-12">
-      <div class="mx-auto max-w-screen-2xl border-t border-ink/10 pt-6 text-[11px] uppercase tracking-[0.2em] text-ink/40">
-        <p>© {new Date().getFullYear()} {site.name} · {sublabel}</p>
+    <footer class="suite-footer">
+      <div class="mx-auto max-w-screen-2xl px-6 py-8 sm:px-12">
+        <p class="suite-footer-line">
+          © {new Date().getFullYear()} {site.name} · Video editing portfolio
+        </p>
       </div>
     </footer>
 
     <script>
+      // Scroll reveal
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(
           (entries) => {
@@ -145,20 +151,6 @@ const pageSchema = {
       } else {
         document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
       }
-
-      // Same analytics bridge as BaseLayout so writing-page events end up in the same bucket.
-      type AnalyticsDetail = { name: string; [k: string]: unknown };
-      function track(detail: AnalyticsDetail) {
-        const w = window as unknown as { __jw_events?: AnalyticsDetail[] };
-        if (w.__jw_events) w.__jw_events.push(detail);
-        else w.__jw_events = [detail];
-      }
-      document.querySelectorAll<HTMLElement>('[data-event]').forEach((el) => {
-        el.addEventListener('click', () => {
-          const name = el.getAttribute('data-event') || 'click';
-          track({ name });
-        });
-      });
     </script>
   </body>
 </html>

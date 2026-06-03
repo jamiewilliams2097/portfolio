@@ -640,3 +640,1033 @@ dialog#lightbox {
     transform: none;
   }
 }
+
+/* =========================================================================
+   Video editing zone — /videoediting
+   Dark "edit suite" feel. Fully isolated under .editing-zone so it never
+   touches /writing or /videographyediting.
+   ========================================================================= */
+
+.editing-zone {
+  --bg: #0a0a0b;
+  --fg: rgba(245, 245, 244, 0.9);
+  --fg-strong: rgba(245, 245, 244, 1);
+  --fg-muted: rgba(245, 245, 244, 0.58);
+  --fg-faint: rgba(245, 245, 244, 0.32);
+  --fg-trace: rgba(245, 245, 244, 0.14);
+  --grid: rgba(245, 245, 244, 0.08);
+  --grid-strong: rgba(245, 245, 244, 0.18);
+  --accent: var(--color-accent);
+
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: dark;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.editing-zone ::selection {
+  background: var(--fg-strong);
+  color: var(--bg);
+}
+
+.editing-zone :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ----- Mono helpers ----------------------------------------------------- */
+.editing-zone .mono,
+.editing-zone .suite-tc,
+.editing-zone .suite-identity,
+.editing-zone .suite-eyebrow,
+.editing-zone .suite-section-eyebrow,
+.editing-zone .bin-clip-head,
+.editing-zone .bin-clip-client,
+.editing-zone .bin-pace,
+.editing-zone .bin-tags,
+.editing-zone .bin-thumb-overlay,
+.editing-zone .bin-why-label,
+.editing-zone .suite-marker-row,
+.editing-zone .suite-marker-row-id,
+.editing-zone .suite-marker-row-short,
+.editing-zone .seq-card-head,
+.editing-zone .pipeline-step,
+.editing-zone .suite-workflow-meta dt,
+.editing-zone .suite-marker-note,
+.editing-zone .suite-edl,
+.editing-zone .suite-edl-list,
+.editing-zone .suite-footer-line,
+.editing-zone .suite-ruler,
+.editing-zone .suite-lane-label,
+.editing-zone .suite-marker-label {
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, monospace;
+}
+
+/* ----- Top bar (identity + live TC) ------------------------------------ */
+
+.editing-zone .suite-topbar {
+  position: relative;
+  border-bottom: 1px solid var(--grid);
+  background: var(--bg);
+}
+
+.editing-zone .suite-identity {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 0.55em;
+}
+.editing-zone .suite-identity-name {
+  color: var(--fg-strong);
+  text-decoration: none;
+}
+.editing-zone .suite-identity-name:hover {
+  color: var(--accent);
+}
+.editing-zone .suite-identity-sep {
+  color: var(--fg-faint);
+}
+.editing-zone .suite-cursor {
+  color: var(--accent);
+  margin-left: 0.15em;
+  animation: suite-blink 1.1s steps(1) infinite;
+}
+@keyframes suite-blink {
+  50% { opacity: 0; }
+}
+
+.editing-zone .suite-tc {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.editing-zone .suite-tc-label {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--fg-faint);
+  font-size: 9px;
+}
+.editing-zone .suite-tc-value {
+  color: var(--accent);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----- Hero ------------------------------------------------------------ */
+
+.editing-zone .suite-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .editing-zone .suite-hero {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    gap: 3rem;
+  }
+}
+
+.editing-zone .suite-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.editing-zone .suite-h1 {
+  margin-top: 1rem;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--fg-strong);
+  text-wrap: balance;
+  max-width: 24ch;
+}
+.editing-zone .suite-h1-dot {
+  color: var(--accent);
+}
+
+.editing-zone .suite-lead {
+  margin-top: 1.25rem;
+  max-width: 50ch;
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  font-weight: 300;
+}
+
+/* Marker note panel ----------------------------------------------------- */
+
+.editing-zone .suite-marker-note {
+  border: 1px solid var(--grid-strong);
+  background: rgba(245, 245, 244, 0.02);
+  padding: 0.85rem 1rem 1rem;
+}
+
+.editing-zone .suite-marker-note-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.editing-zone .suite-marker-note-tag {
+  color: var(--accent);
+}
+.editing-zone .suite-marker-note-tc {
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.editing-zone .suite-marker-note-body {
+  margin-top: 0.85rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  min-height: 3.6em;
+  color: var(--fg);
+}
+
+.editing-zone .suite-typing-text {
+  transition: opacity 500ms ease-out;
+}
+.editing-zone .suite-typing-text.is-fading {
+  opacity: 0;
+}
+
+.editing-zone .suite-typing-caret {
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--accent);
+  animation: suite-blink 1.1s steps(1) infinite;
+}
+
+.editing-zone .suite-marker-note-static {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+.editing-zone .suite-marker-note-static li + li {
+  margin-top: 0.4rem;
+}
+.editing-zone .suite-marker-note-static.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.editing-zone .suite-marker-note-static.is-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  clip: auto;
+  margin: 0.75rem 0 0;
+}
+
+/* Hero timeline --------------------------------------------------------- */
+
+.editing-zone .suite-timeline {
+  position: relative;
+  border-top: 1px solid var(--grid-strong);
+  border-bottom: 1px solid var(--grid-strong);
+  background: linear-gradient(180deg, rgba(245, 245, 244, 0.02), transparent 40%);
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, monospace;
+}
+
+.editing-zone .suite-ruler {
+  position: relative;
+  height: 1.5rem;
+  border-bottom: 1px solid var(--grid);
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--grid-strong) 0,
+    var(--grid-strong) 1px,
+    transparent 1px,
+    transparent 2.5%
+  );
+}
+
+.editing-zone .suite-ruler-tc {
+  position: absolute;
+  bottom: 0.3rem;
+  left: var(--l);
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+  padding: 0 0.35rem;
+  background: var(--bg);
+}
+.editing-zone .suite-ruler-tc:first-child {
+  transform: none;
+  left: 0;
+}
+.editing-zone .suite-ruler-tc:last-child {
+  transform: translateX(-100%);
+  left: 100%;
+}
+
+.editing-zone .suite-lanes {
+  position: relative;
+}
+
+.editing-zone .suite-lane {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  align-items: center;
+  height: 2.1rem;
+  border-bottom: 1px solid var(--grid);
+}
+.editing-zone .suite-lane:last-child {
+  border-bottom: 0;
+}
+
+.editing-zone .suite-lane-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding-left: 1rem;
+}
+
+.editing-zone .suite-lane-track {
+  position: relative;
+  height: 100%;
+  border-left: 1px solid var(--grid);
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(10% - 1px),
+    var(--grid) calc(10% - 1px),
+    var(--grid) 10%
+  );
+}
+
+.editing-zone .suite-clip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: var(--l);
+  width: var(--w);
+  height: 0.95rem;
+  border-radius: 1.5px;
+  background: rgba(245, 245, 244, 0.16);
+  border: 1px solid rgba(245, 245, 244, 0.28);
+}
+.editing-zone .suite-lane[data-lane="b-roll"] .suite-clip {
+  background: rgba(245, 245, 244, 0.1);
+  border-color: rgba(245, 245, 244, 0.22);
+}
+.editing-zone .suite-lane[data-lane="sound"] .suite-clip {
+  background: rgba(229, 164, 73, 0.18);
+  border-color: rgba(229, 164, 73, 0.55);
+  height: 0.6rem;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent 3px,
+    rgba(229, 164, 73, 0.5) 3px,
+    rgba(229, 164, 73, 0.5) 4px
+  );
+}
+.editing-zone .suite-lane[data-lane="captions"] .suite-clip {
+  height: 0.5rem;
+  background: rgba(109, 169, 201, 0.18);
+  border-color: rgba(109, 169, 201, 0.5);
+}
+.editing-zone .suite-lane[data-lane="grade"] .suite-clip {
+  background: rgba(182, 157, 212, 0.1);
+  border-color: rgba(182, 157, 212, 0.32);
+  height: 0.55rem;
+}
+.editing-zone .suite-lane[data-lane="export"] .suite-clip {
+  background: rgba(157, 212, 173, 0.22);
+  border-color: rgba(157, 212, 173, 0.6);
+}
+
+/* Overlay layer (markers + playhead) */
+.editing-zone .suite-overlay {
+  position: absolute;
+  top: 1.5rem; /* below ruler */
+  left: 6rem;  /* after lane label gutter */
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.editing-zone .suite-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--l);
+  width: 1px;
+  background: rgba(229, 164, 73, 0.35);
+}
+.editing-zone .suite-marker-label {
+  position: absolute;
+  top: -1.05rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.1rem 0.4rem;
+  background: var(--bg);
+  border: 1px solid rgba(229, 164, 73, 0.5);
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.editing-zone .suite-playhead {
+  position: absolute;
+  top: -0.4rem;
+  bottom: -0.4rem;
+  left: var(--l);
+  width: 1.5px;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(229, 164, 73, 0.15);
+}
+
+/* ----- Section heads --------------------------------------------------- */
+
+.editing-zone .suite-section-head {
+  margin-bottom: 2rem;
+}
+@media (min-width: 640px) {
+  .editing-zone .suite-section-head {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.editing-zone .suite-section-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.editing-zone .suite-h2 {
+  margin-top: 0.5rem;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--fg-strong);
+  text-wrap: balance;
+}
+.editing-zone .suite-section-lead {
+  margin-top: 0.5rem;
+  max-width: 60ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ----- Bin (selected edits) ------------------------------------------- */
+
+.editing-zone .suite-bin {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem 1.5rem;
+}
+@media (min-width: 760px) {
+  .editing-zone .suite-bin {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2rem;
+  }
+}
+
+.editing-zone .bin-clip {
+  display: flex;
+  flex-direction: column;
+  background: rgba(245, 245, 244, 0.015);
+  border: 1px solid var(--grid);
+  padding: 0;
+}
+
+.editing-zone .bin-clip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--grid);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+.editing-zone .bin-clip-id {
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+.editing-zone .bin-clip-dur {
+  color: var(--fg-faint);
+}
+
+.editing-zone .bin-thumb {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  border-radius: 0;
+  border-bottom: 1px solid var(--grid);
+}
+.editing-zone .bin-thumb iframe,
+.editing-zone .bin-thumb img,
+.editing-zone .bin-thumb .proof-cover-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+.editing-zone .bin-thumb .proof-cover-btn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: #000;
+  cursor: pointer;
+  display: block;
+}
+.editing-zone .bin-thumb .proof-cover-btn img {
+  object-fit: cover;
+  transition: opacity 0.25s ease;
+}
+.editing-zone .bin-thumb .proof-cover-btn:hover img,
+.editing-zone .bin-thumb .proof-cover-btn:focus-visible img {
+  opacity: 0.7;
+}
+
+.editing-zone .bin-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular,
+    Menlo, Consolas, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  color: var(--fg-strong);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.editing-zone .bin-thumb-play {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.7rem;
+  padding: 0.18rem 0.45rem;
+  border: 1px solid rgba(245, 245, 244, 0.5);
+  background: rgba(10, 10, 11, 0.5);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.editing-zone .bin-thumb-tc {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(245, 245, 244, 0.65);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.editing-zone .bin-thumb-ticks {
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.55rem;
+  height: 4px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(245, 245, 244, 0.45) 0,
+    rgba(245, 245, 244, 0.45) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.editing-zone .bin-thumb-playhead {
+  position: absolute;
+  bottom: 0.4rem;
+  left: 6%;
+  right: 6%;
+  height: 1.5px;
+  background: var(--accent);
+  opacity: 0;
+  transform: scaleX(0.35);
+  transform-origin: left center;
+  transition: opacity 0.3s ease, transform 0.45s ease;
+}
+.editing-zone .bin-thumb .proof-cover-btn:hover .bin-thumb-play,
+.editing-zone .bin-thumb .proof-cover-btn:hover .bin-thumb-tc,
+.editing-zone .bin-thumb .proof-cover-btn:hover .bin-thumb-ticks,
+.editing-zone .bin-thumb .proof-cover-btn:focus-visible .bin-thumb-play,
+.editing-zone .bin-thumb .proof-cover-btn:focus-visible .bin-thumb-tc,
+.editing-zone .bin-thumb .proof-cover-btn:focus-visible .bin-thumb-ticks {
+  opacity: 1;
+}
+.editing-zone .bin-thumb .proof-cover-btn:hover .bin-thumb-playhead,
+.editing-zone .bin-thumb .proof-cover-btn:focus-visible .bin-thumb-playhead {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.editing-zone .bin-clip-meta {
+  padding: 1rem 1rem 0.4rem;
+}
+.editing-zone .bin-clip-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--fg-strong);
+}
+.editing-zone .bin-clip-client {
+  margin-top: 0.25rem;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.editing-zone .bin-pace {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  padding: 0.65rem 1rem;
+  margin: 0.5rem 0 0;
+  border-top: 1px dashed var(--grid);
+  border-bottom: 1px dashed var(--grid);
+}
+.editing-zone .bin-pace-pattern {
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.editing-zone .bin-pace-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.editing-zone .bin-note {
+  margin: 0.85rem 1rem 0;
+  font-size: 0.87rem;
+  line-height: 1.55;
+  color: var(--fg);
+}
+
+.editing-zone .bin-why {
+  margin: 0.95rem 1rem 0;
+}
+.editing-zone .bin-why-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.editing-zone .bin-why-list {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--fg);
+}
+.editing-zone .bin-why-list li {
+  position: relative;
+  padding-left: 1.1rem;
+}
+.editing-zone .bin-why-list li + li {
+  margin-top: 0.3rem;
+}
+.editing-zone .bin-why-list li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--fg-faint);
+}
+
+.editing-zone .bin-tags {
+  margin: 1rem 1rem 1rem;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.editing-zone .bin-tags li {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--grid-strong);
+  color: var(--fg-muted);
+}
+
+/* ----- Editing decisions (timeline markers list) ----------------------- */
+
+.editing-zone .suite-markers-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--grid-strong);
+}
+
+.editing-zone .suite-marker-row {
+  display: grid;
+  grid-template-columns: 4rem 7.5rem 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--grid);
+}
+@media (max-width: 700px) {
+  .editing-zone .suite-marker-row {
+    grid-template-columns: 4rem 1fr;
+    gap: 0.75rem 1rem;
+  }
+  .editing-zone .suite-marker-row-short {
+    grid-column: 2;
+  }
+  .editing-zone .suite-marker-row-body {
+    grid-column: 1 / -1;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--grid);
+  }
+}
+
+.editing-zone .suite-marker-row-id {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.18rem;
+}
+.editing-zone .suite-marker-row-short {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding-top: 0.3rem;
+}
+.editing-zone .suite-marker-row-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--fg-strong);
+}
+.editing-zone .suite-marker-row-text {
+  margin-top: 0.45rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 65ch;
+}
+
+/* ----- Editing range (sequence preset cards) --------------------------- */
+
+.editing-zone .suite-seq-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--grid);
+  border: 1px solid var(--grid);
+}
+@media (min-width: 600px) {
+  .editing-zone .suite-seq-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 1000px) {
+  .editing-zone .suite-seq-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+.editing-zone .seq-card {
+  background: var(--bg);
+  padding: 1.1rem 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.editing-zone .seq-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+}
+.editing-zone .seq-card-id {
+  color: var(--accent);
+  font-weight: 500;
+}
+.editing-zone .seq-card-icon {
+  color: var(--fg-faint);
+}
+
+.editing-zone .seq-card-name {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--fg-strong);
+}
+.editing-zone .seq-card-desc {
+  font-size: 0.825rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+/* ----- Workflow pipeline ----------------------------------------------- */
+
+.editing-zone .suite-pipeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.85rem;
+  align-items: center;
+}
+
+.editing-zone .pipeline-step {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--grid-strong);
+  background: rgba(245, 245, 244, 0.02);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  position: relative;
+}
+.editing-zone .pipeline-step:not(:last-child)::after {
+  content: "›";
+  position: absolute;
+  right: -0.95rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-faint);
+  font-size: 14px;
+}
+.editing-zone .pipeline-step-n {
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.editing-zone .pipeline-step-label {
+  color: var(--fg);
+}
+
+.editing-zone .suite-workflow-copy {
+  margin-top: 2rem;
+  max-width: 60ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  font-weight: 300;
+}
+
+.editing-zone .suite-workflow-meta {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  border-top: 1px solid var(--grid);
+  padding-top: 1.25rem;
+}
+@media (min-width: 640px) {
+  .editing-zone .suite-workflow-meta {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+.editing-zone .suite-workflow-meta dt {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 0.4rem;
+}
+.editing-zone .suite-workflow-meta dd {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+/* ----- Contact --------------------------------------------------------- */
+
+.editing-zone .suite-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+@media (min-width: 600px) {
+  .editing-zone .suite-contact {
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+}
+
+.editing-zone .suite-contact-pic {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border: 1px solid var(--grid-strong);
+  display: block;
+  flex-shrink: 0;
+}
+
+.editing-zone .suite-contact-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--fg-strong);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.editing-zone .suite-contact-link:hover {
+  color: var(--accent);
+}
+.editing-zone .suite-contact-link svg {
+  transition: transform 0.2s ease;
+}
+.editing-zone .suite-contact-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* ----- EDL footer signature ------------------------------------------- */
+
+.editing-zone .suite-edl {
+  border-top: 1px solid var(--grid-strong);
+  padding-top: 1.25rem;
+}
+
+.editing-zone .suite-edl-heading {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-bottom: 0.85rem;
+}
+
+.editing-zone .suite-edl-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+}
+
+.editing-zone .suite-edl-row {
+  display: grid;
+  grid-template-columns: 3.5rem 7rem 1fr;
+  gap: 1rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px dashed var(--grid);
+}
+.editing-zone .suite-edl-row:last-child {
+  border-bottom: 0;
+}
+.editing-zone .suite-edl-n {
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+.editing-zone .suite-edl-label {
+  color: var(--fg);
+  letter-spacing: 0.18em;
+}
+.editing-zone .suite-edl-tc {
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----- Suite footer --------------------------------------------------- */
+
+.editing-zone .suite-footer {
+  border-top: 1px solid var(--grid);
+  margin-top: 2rem;
+}
+
+.editing-zone .suite-footer-line {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+/* ----- Reveal animation (editing zone variant) ------------------------ */
+
+.editing-zone .reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.editing-zone .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+.editing-zone .reveal-d1 { transition-delay: 80ms; }
+.editing-zone .reveal-d2 { transition-delay: 160ms; }
+.editing-zone .reveal-d3 { transition-delay: 240ms; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .editing-zone .suite-cursor,
+  .editing-zone .suite-typing-caret {
+    animation: none;
+    opacity: 0.7;
+  }
+  .editing-zone .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

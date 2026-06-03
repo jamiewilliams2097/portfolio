@@ -1,0 +1,375 @@
+---
+import VideoEditingLayout from '../layouts/VideoEditingLayout.astro';
+import {
+  selectedEdits,
+  editDecisions,
+  editingRange,
+  notesFromTheEdit,
+  workflowCopy,
+  workflowTools,
+  workflowPipeline,
+} from '../data/videoediting';
+import { site } from '../data/site';
+
+const title = `Video editing · ${site.name}`;
+const description =
+  'Video editing portfolio. Branded, social and presenter-led video edited for pacing, story, sound and platform-ready delivery.';
+
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent('Video editing enquiry')}`;
+
+// Hero timeline lanes. Each lane has a list of clip blocks defined as
+// [left%, width%] pairs. Kept short and abstract. It is a feel, not a
+// pretend Premiere project.
+const lanes: { id: string; label: string; clips: [number, number][] }[] = [
+  { id: 'a-roll',    label: 'A-roll',   clips: [[0, 16], [20, 12], [36, 22], [62, 14], [80, 18]] },
+  { id: 'b-roll',    label: 'B-roll',   clips: [[6, 9], [28, 8], [50, 16], [76, 10], [90, 7]] },
+  { id: 'sound',     label: 'Sound',    clips: [[0, 30], [34, 24], [62, 30], [94, 5]] },
+  { id: 'captions',  label: 'Captions', clips: [[4, 14], [22, 12], [40, 18], [62, 14], [80, 15]] },
+  { id: 'grade',     label: 'Grade',    clips: [[0, 42], [44, 30], [76, 22]] },
+  { id: 'export',    label: 'Export',   clips: [[88, 10]] },
+];
+
+// Vertical markers across the timeline. Drawn under the playhead.
+const heroMarkers = [
+  { l: 12, label: 'HOOK' },
+  { l: 38, label: 'CUT' },
+  { l: 65, label: 'PAYOFF' },
+];
+
+const heroPlayhead = 32; // percent
+---
+
+<VideoEditingLayout title={title} description={description}>
+  <!-- HERO ----------------------------------------------------------- -->
+  <section class="suite-section px-6 pt-12 sm:px-12 sm:pt-16">
+    <div class="mx-auto max-w-screen-2xl">
+
+      <div class="suite-hero">
+        <!-- Headline column -->
+        <div class="suite-hero-copy reveal">
+          <p class="suite-eyebrow">Workspace</p>
+          <h1 class="suite-h1">
+            Edits with pace, clarity and intent<span class="suite-h1-dot">.</span>
+          </h1>
+          <p class="suite-lead">
+            I edit branded, social and presenter-led video with a focus on structure, rhythm, story, sound and platform-ready delivery.
+          </p>
+        </div>
+
+        <!-- Marker note panel (typing) -->
+        <aside class="suite-marker-note reveal reveal-d1" aria-labelledby="typing-heading">
+          <header class="suite-marker-note-head">
+            <span id="typing-heading" class="suite-marker-note-tag">M·NOTE</span>
+            <span class="suite-marker-note-tc">00:00:12:08</span>
+          </header>
+          <p class="suite-marker-note-body" aria-hidden="true">
+            <span class="suite-typing-text" data-typing></span><span class="suite-typing-caret" aria-hidden="true">▏</span>
+          </p>
+          <ol class="suite-marker-note-static" id="typing-static">
+            {notesFromTheEdit.map((l) => <li>{l}</li>)}
+          </ol>
+        </aside>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 01 · SELECTED EDITS -------------------------------------------- -->
+  <section class="suite-section px-6 pt-24 sm:px-12 sm:pt-32">
+    <div class="mx-auto max-w-screen-2xl">
+      <header class="suite-section-head reveal">
+        <p class="suite-section-eyebrow">01 · Bin · Selected edits</p>
+        <h2 class="suite-h2">Selected edits.</h2>
+        <p class="suite-section-lead">
+          Finished pieces where the edit had to carry pace, clarity, tone or retention.
+        </p>
+      </header>
+
+      <ul class="suite-bin reveal reveal-d1">
+        {selectedEdits.map((item, i) => (
+          <li class="bin-clip">
+            <header class="bin-clip-head">
+              <span class="bin-clip-id">{item.clipId}.MP4</span>
+              <span class="bin-clip-dur">{item.duration}</span>
+            </header>
+
+            <div class="bin-thumb proof-slot" style={`aspect-ratio: ${item.mediaAspect};`}>
+              <button
+                type="button"
+                class="proof-cover-btn"
+                data-vimeo-id={item.vimeoId}
+                data-title={item.title}
+                aria-label={`Play ${item.title}`}
+              >
+                <img
+                  src={item.thumbnail ?? `https://vumbnail.com/${item.vimeoId}.jpg`}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                />
+                <span class="bin-thumb-overlay" aria-hidden="true">
+                  <span class="bin-thumb-play">▶ PLAY</span>
+                  <span class="bin-thumb-tc">{item.duration}</span>
+                  <span class="bin-thumb-ticks"></span>
+                  <span class="bin-thumb-playhead"></span>
+                </span>
+              </button>
+            </div>
+
+            <header class="bin-clip-meta">
+              <h3 class="bin-clip-title">{item.title}</h3>
+              <p class="bin-clip-client">{item.client}</p>
+            </header>
+
+            <p class="bin-note">{item.editingNote}</p>
+
+            <div class="bin-why">
+              <p class="bin-why-label">Why this cut works</p>
+              <ul class="bin-why-list">
+                {item.whyThisCutWorks.map((p) => <li>{p}</li>)}
+              </ul>
+            </div>
+
+            <ul class="bin-tags">
+              {item.tags.map((t) => <li>{t}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 02 · SEQUENCE BREAKDOWN ---------------------------------------- -->
+  <section class="suite-section px-6 pt-24 sm:px-12 sm:pt-32">
+    <div class="mx-auto max-w-screen-2xl">
+      <header class="suite-section-head reveal">
+        <p class="suite-section-eyebrow">02 · Sequence breakdown</p>
+        <h2 class="suite-h2">What sits underneath the cut.</h2>
+        <p class="suite-section-lead">
+          A clean edit is usually built from invisible decisions: structure, coverage, sound, captions, grade and delivery all working together.
+        </p>
+      </header>
+
+      <div class="suite-timeline reveal reveal-d1" role="presentation" aria-hidden="true">
+        <div class="suite-ruler">
+          <span class="suite-ruler-tc" style="--l: 0%">00:00:00</span>
+          <span class="suite-ruler-tc" style="--l: 25%">00:00:30</span>
+          <span class="suite-ruler-tc" style="--l: 50%">00:01:00</span>
+          <span class="suite-ruler-tc" style="--l: 75%">00:01:30</span>
+          <span class="suite-ruler-tc" style="--l: 100%">00:02:00</span>
+        </div>
+
+        <div class="suite-lanes">
+          {lanes.map((lane) => (
+            <div class="suite-lane" data-lane={lane.id}>
+              <span class="suite-lane-label">{lane.label}</span>
+              <div class="suite-lane-track">
+                {lane.clips.map(([l, w]) => (
+                  <span class="suite-clip" style={`--l: ${l}%; --w: ${w}%`}></span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="suite-overlay">
+          {heroMarkers.map((m) => (
+            <span class="suite-marker" style={`--l: ${m.l}%`}>
+              <span class="suite-marker-label">{m.label}</span>
+            </span>
+          ))}
+          <span class="suite-playhead" style={`--l: ${heroPlayhead}%`}></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · EDITING DECISIONS (timeline markers) ---------------------- -->
+  <section class="suite-section px-6 pt-24 sm:px-12 sm:pt-32">
+    <div class="mx-auto max-w-screen-2xl">
+      <header class="suite-section-head reveal">
+        <p class="suite-section-eyebrow">03 · Markers · Editing decisions</p>
+        <h2 class="suite-h2">The edit decisions.</h2>
+        <p class="suite-section-lead">
+          What I look for before the timeline gets polished.
+        </p>
+      </header>
+
+      <ol class="suite-markers-list reveal reveal-d1">
+        {editDecisions.map((d) => (
+          <li class="suite-marker-row">
+            <span class="suite-marker-row-id">{d.marker}</span>
+            <span class="suite-marker-row-short">{d.short}</span>
+            <div class="suite-marker-row-body">
+              <h3 class="suite-marker-row-title">{d.title}</h3>
+              <p class="suite-marker-row-text">{d.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 04 · EDITING RANGE (sequence presets) -------------------------- -->
+  <section class="suite-section px-6 pt-24 sm:px-12 sm:pt-32">
+    <div class="mx-auto max-w-screen-2xl">
+      <header class="suite-section-head reveal">
+        <p class="suite-section-eyebrow">04 · Sequences · Editing range</p>
+        <h2 class="suite-h2">Editing range.</h2>
+        <p class="suite-section-lead">
+          Different cuts need different instincts.
+        </p>
+      </header>
+
+      <ul class="suite-seq-grid reveal reveal-d1">
+        {editingRange.map((m) => (
+          <li class="seq-card">
+            <header class="seq-card-head">
+              <span class="seq-card-id">{m.seqId}</span>
+              <span class="seq-card-icon" aria-hidden="true">⌗</span>
+            </header>
+            <h3 class="seq-card-name">{m.name}</h3>
+            <p class="seq-card-desc">{m.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 05 · WORKFLOW (pipeline chain) --------------------------------- -->
+  <section class="suite-section px-6 pt-24 sm:px-12 sm:pt-32">
+    <div class="mx-auto max-w-screen-2xl">
+      <header class="suite-section-head reveal">
+        <p class="suite-section-eyebrow">05 · Pipeline · Workflow</p>
+        <h2 class="suite-h2">Workflow.</h2>
+        <p class="suite-section-lead">
+          Clean timelines, clear exports and edits that are easy to review.
+        </p>
+      </header>
+
+      <ol class="suite-pipeline reveal reveal-d1" aria-label="Edit workflow pipeline">
+        {workflowPipeline.map((step, i) => (
+          <li class="pipeline-step">
+            <span class="pipeline-step-n">{String(i + 1).padStart(2, '0')}</span>
+            <span class="pipeline-step-label">{step}</span>
+          </li>
+        ))}
+      </ol>
+
+      <p class="suite-workflow-copy reveal reveal-d2">
+        {workflowCopy}
+      </p>
+
+      <dl class="suite-workflow-meta reveal reveal-d2">
+        <div>
+          <dt>Tools</dt>
+          <dd>{workflowTools.join(' · ')}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 06 · CONTACT --------------------------------------------------- -->
+  <section class="suite-section px-6 pt-24 sm:px-12 sm:pt-32">
+    <div class="mx-auto max-w-screen-2xl">
+      <header class="suite-section-head reveal">
+        <p class="suite-section-eyebrow">06 · Contact</p>
+        <h2 class="suite-h2">Contact.</h2>
+      </header>
+
+      <div class="suite-contact reveal reveal-d1">
+        <img
+          src="/Jamie-Williams-Headshot.jpg"
+          alt="Jamie Williams, video editor"
+          class="suite-contact-pic"
+          width="144"
+          height="144"
+          loading="lazy"
+        />
+        <a
+          href={mailto}
+          class="suite-contact-link"
+          data-event="videoediting_cta_email"
+        >
+          <span>{site.email}</span>
+          <svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M2 7h10m0 0L8 3m4 4l-4 4" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts: typing animation, click-to-play, live timecode -->
+  <script define:vars={{ notesLines: notesFromTheEdit }}>
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- Marker note typing (loops) ----
+    const typingTarget = document.querySelector('[data-typing]');
+    const staticList   = document.getElementById('typing-static');
+
+    if (reduced || !typingTarget) {
+      if (staticList) staticList.classList.add('is-visible');
+    } else {
+      if (staticList) staticList.classList.add('sr-only');
+
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      async function typeOne(el, text) {
+        el.textContent = '';
+        el.classList.remove('is-fading');
+        for (let i = 0; i < text.length; i++) {
+          el.textContent = text.slice(0, i + 1);
+          await sleep(45 + Math.random() * 35);
+        }
+        await sleep(2500);
+        el.classList.add('is-fading');
+        await sleep(600);
+      }
+
+      (async function loop() {
+        await sleep(800);
+        while (true) {
+          for (const t of notesLines) {
+            await typeOne(typingTarget, t);
+          }
+          await sleep(1000);
+        }
+      })();
+    }
+
+    // ---- Click-to-play covers ----
+    document.querySelectorAll('.proof-cover-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id    = btn.getAttribute('data-vimeo-id');
+        const title = btn.getAttribute('data-title') || '';
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://player.vimeo.com/video/${id}?autoplay=1&dnt=1&title=0&byline=0&portrait=0&badge=0`;
+        iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', title);
+        iframe.className = 'proof-cover-iframe';
+        btn.replaceWith(iframe);
+      });
+    });
+
+    // ---- Live timecode (25 fps, session-relative) ----
+    const tcEl = document.getElementById('live-tc');
+    if (tcEl && !reduced) {
+      const start = performance.now();
+      const pad = (n) => String(n).padStart(2, '0');
+      function update() {
+        const elapsedMs = performance.now() - start;
+        const totalFrames = Math.floor((elapsedMs / 1000) * 25);
+        const f = totalFrames % 25;
+        const s = Math.floor(totalFrames / 25) % 60;
+        const m = Math.floor(totalFrames / (25 * 60)) % 60;
+        const h = Math.floor(totalFrames / (25 * 60 * 60));
+        tcEl.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(f)}`;
+      }
+      setInterval(update, 40);
+    }
+  </script>
+</VideoEditingLayout>
